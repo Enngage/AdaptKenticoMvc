@@ -21,8 +21,8 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        [Route("test")]
-        public async Task<IActionResult> Test([FromQuery] string projectId)
+        [Route("")]
+        public async Task<IActionResult> Index([FromQuery] string projectId)
         {
             var course = await CourseService.GetCourseMetadataAsync(projectId);
             var pages = await CourseService.GetPagesAsync(projectId);

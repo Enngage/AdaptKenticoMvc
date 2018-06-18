@@ -1,7 +1,9 @@
-﻿using CloudIntegration;
+﻿using Adapt;
+using CloudIntegration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Web.Services;
 
 namespace Web
 {
@@ -17,7 +19,11 @@ namespace Web
                 .AddJsonFormatters();
             services.AddRouting();
 
-            services.AddScoped<IDataService, DataService>();
+            services.AddScoped<ICourseService, CourseService>();
+            services.AddScoped<IAdaptService, AdaptService>();
+            services.AddScoped<IFileService, FileService>(
+                service => new FileService("wwwroot")
+                );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -26,7 +32,7 @@ namespace Web
 
             #warning Enable cors only for required domains when going live
             app.UseCors(builder => builder
-                .AllowAnyOrigin() 
+                .AllowAnyOrigin()
                 .AllowAnyHeader()
                 .AllowAnyMethod()
             );

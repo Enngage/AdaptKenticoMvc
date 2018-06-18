@@ -1,26 +1,38 @@
 ﻿using System.Threading.Tasks;
+using Adapt;
 using CloudIntegration;
 using Microsoft.AspNetCore.Mvc;
+using Web.Services;
 
 namespace Web.Controllers
 {
     [Route(BaseConfig.MvcApiRoute)]
     public class GenerateController : Controller
     {
-        private IDataService DataService { get; }
+        private ICourseService CourseService { get; }
+        private IAdaptService AdaptService { get; }
+        private IFileService FileService { get; }
 
-        public GenerateController(IDataService dataService)
+        public GenerateController(ICourseService courseService, IAdaptService adaptService, IFileService fileService)
         {
-            DataService = dataService;
+            CourseService = courseService;
+            AdaptService = adaptService;
+            FileService = fileService;
         }
 
         [HttpGet]
         [Route("test")]
         public async Task<IActionResult> Test([FromQuery] string projectId)
         {
-            var articles = await DataService.GetArticlesAsync(projectId);
+            var course = await CourseService.GetCourseMetadataAsync(projectId);
+            var pages = await CourseService.GetPagesAsync(projectId);
 
-            return new ObjectResult(articles);
+            var courseData = AdaptService.GenerateCourseData(pages);
+
+            // (re)generate course json files
+            await FileService.CreateCourseJsonFilesAsync(course.CourseName, courseData);
+
+            return new ObjectResult(courseData);
         }
 
         [HttpPost]

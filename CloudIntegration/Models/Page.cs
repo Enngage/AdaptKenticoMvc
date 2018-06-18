@@ -24,7 +24,7 @@ namespace CloudIntegration.Models
         public decimal? Duration { get; set; }
         public string LinkText { get; set; }
         public string Title { get; set; }
-        public IEnumerable<object> Articles { get; set; }
+        public IEnumerable<Article> Articles { get; set; }
         public string Text { get; set; }
         public string DisplayTitle { get; set; }
         public ContentItemSystemAttributes System { get; set; }

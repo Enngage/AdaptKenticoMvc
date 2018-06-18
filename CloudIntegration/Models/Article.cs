@@ -17,7 +17,7 @@ namespace CloudIntegration.Models
         public const string TitleCodename = "title";
 
         public string Body { get; set; }
-        public IEnumerable<object> Blocks { get; set; }
+        public IEnumerable<Block> Blocks { get; set; }
         public string Title { get; set; }
         public ContentItemSystemAttributes System { get; set; }
     }

@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Adapt\Adapt.csproj" />
     <ProjectReference Include="..\CloudIntegration\CloudIntegration.csproj" />
   </ItemGroup>
 

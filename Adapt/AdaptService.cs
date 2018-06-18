@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Adapt.Model;
 using CloudIntegration.Models;
+using KenticoCloud.Delivery;
 
 namespace Adapt
 {
@@ -97,12 +98,27 @@ namespace Adapt
                 Instructions = m.Instructions,
                 LinkText = m.LinkText,
                 PageBody = m.Text,
-                Graphics = null,
+                Graphic = GetGraphics(m.Image),
                 Title = m.Title,
                 DisplayTitle = m.DisplayTitle
             }).ToList();
         }
 
+        private GraphicAdapt GetGraphics(IEnumerable<Asset> assets)
+        {
+            // take only one asset
+            var asset = assets.FirstOrDefault();
 
+            if (asset == null)
+            {
+                return null;
+            }
+
+            return new GraphicAdapt()
+            {
+                Alt = asset.Name,
+                Src = asset.Url
+            };
+        }
     }
 }

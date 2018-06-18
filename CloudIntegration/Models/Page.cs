@@ -19,6 +19,7 @@ namespace CloudIntegration.Models
         public const string ArticlesCodename = "articles";
         public const string TextCodename = "text";
         public const string DisplayTitleCodename = "display_title";
+        public const string ImageCodename = "image";
 
         public string Instructions { get; set; }
         public decimal? Duration { get; set; }
@@ -28,5 +29,6 @@ namespace CloudIntegration.Models
         public string Text { get; set; }
         public string DisplayTitle { get; set; }
         public ContentItemSystemAttributes System { get; set; }
+        public IEnumerable<Asset> Image { get; set; }
     }
 }

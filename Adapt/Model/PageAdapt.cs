@@ -24,8 +24,8 @@ namespace Adapt.Model
         [JsonProperty("linkText")]
         public string LinkText { get; set; }
 
-        [JsonProperty("_graphics")]
-        public GraphicsAdapt Graphics { get; set; }
+        [JsonProperty("_graphic")]
+        public GraphicAdapt Graphic { get; set; }
 
         public override AdaptModelType Type { get; set; } = AdaptModelType.Page;
     }

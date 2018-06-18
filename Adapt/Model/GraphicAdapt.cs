@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Adapt.Model
 {
-    public class GraphicsAdapt
+    public class GraphicAdapt
     {
         [JsonProperty("src")]
         public string Src { get; set; }

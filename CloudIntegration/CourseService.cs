@@ -14,12 +14,12 @@ namespace CloudIntegration
         {
             var deliveryClient = GetDeliveryClient(projectId);
 
-            var articlesResponse = await deliveryClient.GetItemsAsync<Page>(
+            var response = await deliveryClient.GetItemsAsync<Page>(
                 new EqualsFilter("system.type", Page.Codename),
                 new DepthParameter(5)
                );
 
-            return articlesResponse.Items.ToList();
+            return response.Items.ToList();
         }
 
         public async Task<CourseMetadata> GetCourseMetadataAsync(string projectId)

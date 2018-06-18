@@ -5,9 +5,6 @@ namespace Adapt.Model
     public class ComponentAdapt : BaseAdaptModel
     {
 
-        [JsonProperty("title")]
-        public string Title { get; set; }
-
         [JsonProperty("body")]
         public string Body { get; set; }
 

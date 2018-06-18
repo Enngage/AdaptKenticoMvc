@@ -9,11 +9,11 @@ namespace Adapt.Model
         [JsonIgnore]
         public List<Component> Components { get; set; }
 
-        [JsonProperty("title")]
-        public string Title { get; set; }
-
         [JsonProperty("body")]
         public string Body { get; set; }
+
+        [JsonProperty("_trackingId")]
+        public string TrackingId { get; set; }
 
         public override AdaptModelType Type { get; set; } = AdaptModelType.Block;
     }

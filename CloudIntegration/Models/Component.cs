@@ -13,9 +13,11 @@ namespace CloudIntegration.Models
         public const string Codename = "component";
         public const string TitleCodename = "title";
         public const string BodyCodename = "body";
+        public const string DisplayTitleCodename = "display_title";
 
         public string Title { get; set; }
         public string Body { get; set; }
         public ContentItemSystemAttributes System { get; set; }
+        public string DisplayTitle { get; set; }
     }
 }

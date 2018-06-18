@@ -9,12 +9,6 @@ namespace Adapt.Model
         [JsonIgnore]
         public List<Article> Articles { get; set; }
 
-        [JsonProperty("title")]
-        public string Title { get; set; }
-
-        [JsonProperty("displayTitle")]
-        public string DisplayTitle { get; set; }
-
         [JsonProperty("body")]
         public string Body { get; set; }
 

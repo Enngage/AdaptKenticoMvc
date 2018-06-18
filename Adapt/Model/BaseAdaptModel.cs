@@ -15,6 +15,12 @@ namespace Adapt.Model
 
         [JsonProperty("_type")] public string TypeJson => Type.Type;
 
+        [JsonProperty("title")]
+        public string Title { get; set; }
+
+        [JsonProperty("displayTitle")]
+        public string DisplayTitle { get; set; }
+
         [JsonIgnore]
         public abstract AdaptModelType Type { get; set; }
     }

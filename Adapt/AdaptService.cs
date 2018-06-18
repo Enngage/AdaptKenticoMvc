@@ -53,6 +53,7 @@ namespace Adapt
                 Id = m.System.Id,
                 ParentId = parent.Id,
                 Title = m.Title,
+                DisplayTitle = m.DisplayTitle
             }).ToList();
         }
 
@@ -65,6 +66,8 @@ namespace Adapt
                 ParentId = parent.Id,
                 Body = m.Body,
                 Title = m.Title,
+                DisplayTitle = m.DisplayTitle,
+                TrackingId = m.System.Id
             }).ToList();
         }
 
@@ -76,6 +79,7 @@ namespace Adapt
                 ParentId = parent.Id,
                 Body = m.Body,
                 Title = m.Title,
+                DisplayTitle = m.DisplayTitle,
                 Component = AdaptComponentType.Text
                 
             }).ToList();
@@ -89,13 +93,13 @@ namespace Adapt
                 Id = m.System.Id,
                 ParentId = DefaultPageParentId,
                 Body = m.Text,
-                Title = m.Title,
-                DisplayTitle = m.DisplayTitle,
                 Duration = m.Duration,
                 Instructions = m.Instructions,
                 LinkText = m.LinkText,
                 PageBody = m.Text,
                 Graphics = null,
+                Title = m.Title,
+                DisplayTitle = m.DisplayTitle
             }).ToList();
         }
 

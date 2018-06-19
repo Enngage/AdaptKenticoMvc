@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Adapt;
 using CloudIntegration;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Web.Services;
 
 namespace Web.Controllers
@@ -18,6 +20,21 @@ namespace Web.Controllers
             CourseService = courseService;
             AdaptService = adaptService;
             FileService = fileService;
+        }
+
+        [HttpGet]
+        [Route("List")]
+        public async Task<IActionResult> List()
+        {
+            var courses = await CourseService.GetSupportedCoursesAsync();
+
+            var courseResponse = courses.Select(m => new
+            {
+                CourseName = m.CourseName,
+                ProjectId = m.Projectid
+            });
+
+            return new ObjectResult(courseResponse);
         }
 
         [HttpGet]

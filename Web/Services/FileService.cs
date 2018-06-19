@@ -3,23 +3,17 @@ using System.Threading.Tasks;
 using Adapt.Model;
 using Newtonsoft.Json;
 using Web.Extensions;
+using Web.Models;
 
 namespace Web.Services
 {
     public class FileService : IFileService
     {
-        public const string CoursesFolderName = "courses";
+        private FileServiceConfig Config { get; }
 
-        public const string ArticlesFilename = "articles.json";
-        public const string ContentObjectsFilename = "contentObjects.json";
-        public const string BlocksFilename = "blocks.json";
-        public const string ComponentsFilename = "components.json";
-
-        private string RootFolder { get; }
-
-        public FileService(string rootFolder)
+        public FileService(FileServiceConfig config)
         {
-            RootFolder = rootFolder;
+            Config = config;
         }
 
         public async Task CreateCourseJsonFilesAsync(string projectName, AdaptCourseData courseData)
@@ -29,10 +23,10 @@ namespace Web.Services
             // make sure directory for course exists
             Directory.CreateDirectory(courseDir);
 
-            await CreateJsonFileAsync(courseDir, ContentObjectsFilename, JsonConvert.SerializeObject(courseData.Pages));
-            await CreateJsonFileAsync(courseDir, ArticlesFilename, JsonConvert.SerializeObject(courseData.Articles));
-            await CreateJsonFileAsync(courseDir, BlocksFilename, JsonConvert.SerializeObject(courseData.Blocks));
-            await CreateJsonFileAsync(courseDir, ComponentsFilename, JsonConvert.SerializeObject(courseData.Components));
+            await CreateJsonFileAsync(courseDir, Config.ContentObjectsFilename, JsonConvert.SerializeObject(courseData.Pages));
+            await CreateJsonFileAsync(courseDir, Config.ArticlesFilename, JsonConvert.SerializeObject(courseData.Articles));
+            await CreateJsonFileAsync(courseDir, Config.BlocksFilename, JsonConvert.SerializeObject(courseData.Blocks));
+            await CreateJsonFileAsync(courseDir, Config.ComponentsFilename, JsonConvert.SerializeObject(courseData.Components));
         }
 
         public async Task CreateJsonFileAsync(string folder, string filename, string content)
@@ -47,7 +41,7 @@ namespace Web.Services
 
         public string GetCourseFolder(string projectName)
         {
-            return $"{RootFolder}\\{CoursesFolderName}\\{projectName.ToCodename()}";
+            return $"{Config.RootFolder}\\{Config.CoursesFolderName}\\{projectName.ToCodename()}";
         }
     }
 }

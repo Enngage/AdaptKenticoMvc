@@ -7,6 +7,12 @@ namespace Adapt.Model
     {
         public override AdaptModelType Type { get; } = AdaptModelType.Component;
 
+        [JsonProperty("instruction")]
+        public string Instructions { get; set; }
+
+        [JsonProperty("_layout")]
+        public string Layout { get; set; }
+
         [JsonProperty("_component")] public string ComponentJson => Component.Type;
 
         [JsonIgnore]

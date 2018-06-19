@@ -8,12 +8,6 @@ namespace Adapt.Model.Components
         [JsonProperty("body")]
         public string Body { get; set; }
 
-        [JsonProperty("instruction")]
-        public string Instructions { get; set; }
-
-        [JsonProperty("_layout")]
-        public string Layout { get; set; }
-
         public override AdaptComponentType Component => AdaptComponentType.Text;
     }
 }

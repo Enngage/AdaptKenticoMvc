@@ -81,31 +81,40 @@ namespace Adapt
 
             foreach (var inputComponent in inputComponents)
             {
-                switch (inputComponent.System.Type)
+                if (inputComponent is TextComponent textComponent)
                 {
-                    case TextComponent.Codename:
-                        if (inputComponent is TextComponent textComponent)
+                    components.Add(new TextComponentAdapt()
+                    {
+                        Id = textComponent.System.Id,
+                        ParentId = parent.Id,
+                        Title = textComponent.BasecomponentTitle,
+                        DisplayTitle = textComponent.BasecomponentDisplayTitle,
+                        Body = textComponent.Body,
+                        Instructions = textComponent.BasecomponentInstructions,
+                        Layout = GetLayout(textComponent.BasecomponentLayout)
+                    });
+                }
+                else if (inputComponent is GraphicComponent graphicComponent)
+                {
+                    components.Add(new GraphicComponentAdapt()
+                    {
+                        Id = graphicComponent.System.Id,
+                        ParentId = parent.Id,
+                        Title = graphicComponent.BasecomponentTitle,
+                        DisplayTitle = graphicComponent.BasecomponentDisplayTitle,
+                        Instructions = graphicComponent.BasecomponentInstructions,
+                        Layout = GetLayout(graphicComponent.BasecomponentLayout),
+                        Graphic = new FullGraphic()
                         {
-                            components.Add(new TextComponentAdapt()
-                            {
-                                Id = textComponent.System.Id,
-                                ParentId = parent.Id,
-                                Title = textComponent.BasecomponentTitle,
-                                DisplayTitle = textComponent.BasecomponentDisplayTitle,
-                                Body = textComponent.Body,
-                                Instructions = textComponent.BasecomponentInstructions,
-                                Layout = GetLayout(textComponent.BasecomponentLayout)
-                            });
+                            Alt = graphicComponent.Alt,
+                            LargeSrc = graphicComponent.LargeImage.FirstOrDefault()?.Url,
+                            SmallSrc = graphicComponent.SmallImage.FirstOrDefault()?.Url
                         }
-                        else
-                        {
-                            throw new NotSupportedException($"Unexpected component type for component: {inputComponent.System.Codename}");
-                        }
-                        break;
-                    case "asef":
-                        break;
-                    default:
-                        throw new NotSupportedException($"Unsupported component type '{inputComponent.System.Type}'");
+                    });
+                }
+                else
+                {
+                    throw new NotSupportedException($"Unsupported component type '{inputComponent.GetType().Name}' for component '{inputComponent.System.Codename}'");
                 }
             }
             return components;
@@ -135,7 +144,7 @@ namespace Adapt
             return options?.FirstOrDefault()?.Name?.ToLower();
         }
 
-        private GraphicAdapt GetGraphics(IEnumerable<Asset> assets)
+        private SimpleGraphic GetGraphics(IEnumerable<Asset> assets)
         {
             // take only one asset
             var asset = assets.FirstOrDefault();
@@ -145,7 +154,7 @@ namespace Adapt
                 return null;
             }
 
-            return new GraphicAdapt()
+            return new SimpleGraphic()
             {
                 Alt = asset.Name,
                 Src = asset.Url

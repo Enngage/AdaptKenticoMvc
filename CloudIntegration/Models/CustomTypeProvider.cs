@@ -20,6 +20,10 @@ namespace CloudIntegration.Models
                     return typeof(Page);
                 case "text_component":
                     return typeof(TextComponent);
+                case "graphic_component":
+                    return typeof(GraphicComponent);
+                case "course":
+                    return typeof(Course);
                 default:
                     return null;
             }

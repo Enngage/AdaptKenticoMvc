@@ -22,7 +22,7 @@ namespace Web.Controllers
 
         [HttpGet]
         [Route("")]
-        public async Task<IActionResult> Index([FromQuery] string projectId)
+        public async Task<IActionResult> Index([FromQuery] string projectId, bool debug = false)
         {
             var course = await CourseService.GetCourseMetadataAsync(projectId);
             var pages = await CourseService.GetPagesAsync(projectId);
@@ -32,7 +32,12 @@ namespace Web.Controllers
             // (re)generate course json files
             await FileService.CreateCourseJsonFilesAsync(course.CourseName, courseData);
 
-            return new ObjectResult(courseData);
+            if (debug)
+            {
+                return new ObjectResult(courseData);
+            }
+
+            return new ObjectResult($"Data for course '{course.CourseName}' with projectId '{projectId}' have been generated.");
         }
 
         [HttpPost]

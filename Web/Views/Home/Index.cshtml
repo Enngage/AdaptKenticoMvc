@@ -1,0 +1,31 @@
+﻿@using AngleSharp.Network.Default
+@using CloudIntegration.Models
+@model List<CloudIntegration.Models.Course>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Course generator</title>
+</head>
+<body>
+    <h1>
+        Supported courses
+    </h1>
+
+    @foreach (var course in Model)
+    {
+        <div style="margin-top: 16px">
+            <a href="@Url.RouteUrl("api", new { controller="generate", action = "index", projectId = course.Projectid, debug = false})" target="_blank">
+                <h3>@course.CourseName</h3>
+            </a>
+        </div>
+    }
+
+</body>
+</html>

@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Adapt;
 using CloudIntegration;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis;
 using Web.Services;
 
 namespace Web.Controllers
@@ -38,6 +37,7 @@ namespace Web.Controllers
         }
 
         [HttpGet]
+        [Route("index")]
         [Route("")]
         public async Task<IActionResult> Index([FromQuery] string projectId, bool debug = false)
         {

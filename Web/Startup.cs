@@ -34,8 +34,7 @@ namespace Web
             var config = Configuration.GetSection(AppConfigPath).Get<AppConfig>();
 
             services.AddCors();
-            services.AddMvcCore()
-                .AddJsonFormatters();
+            services.AddMvc();
             services.AddRouting();
 
             services.AddScoped<ICourseService, CourseService>(
@@ -75,6 +74,7 @@ namespace Web
             app.UseMvc(routes =>
             {
                 routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                routes.MapRoute("api", "api/{controller}/{action}");
             });
         }
     }

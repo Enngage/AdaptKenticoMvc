@@ -14,4 +14,8 @@
     <ProjectReference Include="..\CloudIntegration\CloudIntegration.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="NewFolder\" />
+  </ItemGroup>
+
 </Project>

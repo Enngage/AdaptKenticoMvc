@@ -36,7 +36,7 @@ namespace CloudIntegration
                 throw new NotSupportedException($"Course with project id '{projectId}' is not supported!");
             }
 
-            var deliveryClient = GetDeliveryClient(projectId);
+            var deliveryClient = GetDeliveryClient(projectId, true);
 
             var response = await deliveryClient.GetItemsAsync<Page>(
                 new EqualsFilter("system.type", Page.Codename),
@@ -62,11 +62,12 @@ namespace CloudIntegration
         }
 
 
-        private IDeliveryClient GetDeliveryClient(string projectId)
+        private IDeliveryClient GetDeliveryClient(string projectId, bool waitForLoadingNewContent = false)
         {
             return new DeliveryClient(new DeliveryOptions()
             {
                 ProjectId = projectId,
+                WaitForLoadingNewContent = waitForLoadingNewContent
             })
             {
                 CodeFirstModelProvider = { TypeProvider = new CustomTypeProvider() }

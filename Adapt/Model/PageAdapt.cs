@@ -27,6 +27,6 @@ namespace Adapt.Model
         [JsonProperty("_graphic")]
         public GraphicAdapt Graphic { get; set; }
 
-        public override AdaptModelType Type { get; set; } = AdaptModelType.Page;
+        public override AdaptModelType Type { get; } = AdaptModelType.Page;
     }
 }

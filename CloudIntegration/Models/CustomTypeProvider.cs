@@ -1,4 +1,5 @@
 using System;
+using CloudIntegration.Models.Components;
 using KenticoCloud.Delivery;
 
 namespace CloudIntegration.Models
@@ -13,12 +14,12 @@ namespace CloudIntegration.Models
                     return typeof(Article);
                 case "block":
                     return typeof(Block);
-                case "component":
-                    return typeof(Component);
                 case "course_metadata":
                     return typeof(CourseMetadata);
                 case "page":
                     return typeof(Page);
+                case "text_component":
+                    return typeof(TextComponent);
                 default:
                     return null;
             }

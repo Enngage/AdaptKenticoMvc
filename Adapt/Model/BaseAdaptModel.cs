@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Adapt.Model
 {
@@ -22,6 +19,6 @@ namespace Adapt.Model
         public string DisplayTitle { get; set; }
 
         [JsonIgnore]
-        public abstract AdaptModelType Type { get; set; }
+        public abstract AdaptModelType Type { get;  }
     }
 }

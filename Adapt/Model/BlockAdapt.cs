@@ -7,7 +7,7 @@ namespace Adapt.Model
     public class BlockAdapt : BaseAdaptModel
     {
         [JsonIgnore]
-        public List<Component> Components { get; set; }
+        public List<IBaseComponent> Components { get; set; }
 
         [JsonProperty("body")]
         public string Body { get; set; }
@@ -15,6 +15,6 @@ namespace Adapt.Model
         [JsonProperty("_trackingId")]
         public string TrackingId { get; set; }
 
-        public override AdaptModelType Type { get; set; } = AdaptModelType.Block;
+        public override AdaptModelType Type { get; } = AdaptModelType.Block;
     }
 }

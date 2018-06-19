@@ -9,7 +9,7 @@ namespace Adapt.Model
         [JsonIgnore]
         public List<Block> Blocks { get; set; }
 
-        public override AdaptModelType Type { get; set; } = AdaptModelType.Article;
+        public override AdaptModelType Type { get; } = AdaptModelType.Article;
 
         [JsonProperty("body")]
         public string Body { get; set; }

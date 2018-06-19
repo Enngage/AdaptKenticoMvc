@@ -9,7 +9,7 @@ namespace Adapt
         AdaptCourseData GenerateCourseData(List<Page> inputPages);
         List<ArticleAdapt> GetArticles(PageAdapt parent, List<Article> inputArticles);
         List<BlockAdapt> GetBlocks(ArticleAdapt parent, List<Block> inputBlocks);
-        List<ComponentAdapt> GetComponents(BlockAdapt parent, List<Component> inputComponents);
+        List<BaseAdaptComponent> GetComponents(BlockAdapt parent, List<IBaseComponent> inputComponents);
         List<PageAdapt> GetPages(List<Page> inputPages);
     }
 }

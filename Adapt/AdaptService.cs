@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Adapt.Model;
+using Adapt.Model.Components;
+using AngleSharp.Dom.Css;
 using CloudIntegration.Models;
+using CloudIntegration.Models.Components;
 using KenticoCloud.Delivery;
 
 namespace Adapt
@@ -19,7 +22,7 @@ namespace Adapt
             var pages = GetPages(inputPages);
             var articles = new List<ArticleAdapt>();
             var blocks = new List<BlockAdapt>();
-            var components = new List<ComponentAdapt>();
+            var components = new List<BaseAdaptComponent>();
 
             foreach (var page in pages)
             {
@@ -62,7 +65,7 @@ namespace Adapt
         {
             return inputBlocks.Select(m => new BlockAdapt()
             {
-                Components = m.Components.ToList(),
+                Components = m.Components.Cast<IBaseComponent>().ToList(),
                 Id = m.System.Id,
                 ParentId = parent.Id,
                 Body = m.Body,
@@ -72,19 +75,41 @@ namespace Adapt
             }).ToList();
         }
 
-        public List<ComponentAdapt> GetComponents(BlockAdapt parent, List<Component> inputComponents)
+        public List<BaseAdaptComponent> GetComponents(BlockAdapt parent, List<IBaseComponent> inputComponents)
         {
-            return inputComponents.Select(m => new ComponentAdapt()
+            var components = new List<BaseAdaptComponent>();
+
+            foreach (var inputComponent in inputComponents)
             {
-                Id = m.System.Id,
-                ParentId = parent.Id,
-                Body = m.Body,
-                Title = m.Title,
-                DisplayTitle = m.DisplayTitle,
-                Component = AdaptComponentType.Text
-                
-            }).ToList();
-        }
+                switch (inputComponent.System.Type)
+                {
+                    case TextComponent.Codename:
+                        if (inputComponent is TextComponent textComponent)
+                        {
+                            components.Add(new TextComponentAdapt()
+                            {
+                                Id = textComponent.System.Id,
+                                ParentId = parent.Id,
+                                Title = textComponent.BasecomponentTitle,
+                                DisplayTitle = textComponent.BasecomponentDisplayTitle,
+                                Body = textComponent.Body,
+                                Instructions = textComponent.BasecomponentInstructions,
+                                Layout = GetLayout(textComponent.BasecomponentLayout)
+                            });
+                        }
+                        else
+                        {
+                            throw new NotSupportedException($"Unexpected component type for component: {inputComponent.System.Codename}");
+                        }
+                        break;
+                    case "asef":
+                        break;
+                    default:
+                        throw new NotSupportedException($"Unsupported component type '{inputComponent.System.Type}'");
+                }
+            }
+            return components;
+    }
 
         public List<PageAdapt> GetPages(List<Page> inputPages)
         {
@@ -102,6 +127,12 @@ namespace Adapt
                 Title = m.Title,
                 DisplayTitle = m.DisplayTitle
             }).ToList();
+        }
+
+        private string GetLayout(IEnumerable<MultipleChoiceOption> options)
+        {
+            // its a radio button and we are interested only in first value
+            return options?.FirstOrDefault()?.Name?.ToLower();
         }
 
         private GraphicAdapt GetGraphics(IEnumerable<Asset> assets)

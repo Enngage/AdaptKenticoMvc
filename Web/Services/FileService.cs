@@ -9,6 +9,8 @@ namespace Web.Services
 {
     public class FileService : IFileService
     {
+        private static readonly object FileAccessLock = new object();
+
         private FileServiceConfig Config { get; }
 
         public FileService(FileServiceConfig config)
@@ -16,26 +18,30 @@ namespace Web.Services
             Config = config;
         }
 
-        public async Task CreateCourseJsonFilesAsync(string projectName, AdaptCourseData courseData)
+        public void CreateCourseJsonFiles(string projectName, AdaptCourseData courseData)
         {
             var courseDir = GetCourseFolder(projectName);
 
             // make sure directory for course exists
             Directory.CreateDirectory(courseDir);
 
-            await CreateJsonFileAsync(courseDir, Config.ContentObjectsFilename, JsonConvert.SerializeObject(courseData.Pages));
-            await CreateJsonFileAsync(courseDir, Config.ArticlesFilename, JsonConvert.SerializeObject(courseData.Articles));
-            await CreateJsonFileAsync(courseDir, Config.BlocksFilename, JsonConvert.SerializeObject(courseData.Blocks));
-            await CreateJsonFileAsync(courseDir, Config.ComponentsFilename, JsonConvert.SerializeObject(courseData.Components));
+             CreateJsonFile(courseDir, Config.ContentObjectsFilename, JsonConvert.SerializeObject(courseData.Pages));
+             CreateJsonFile(courseDir, Config.ArticlesFilename, JsonConvert.SerializeObject(courseData.Articles));
+             CreateJsonFile(courseDir, Config.BlocksFilename, JsonConvert.SerializeObject(courseData.Blocks));
+             CreateJsonFile(courseDir, Config.ComponentsFilename, JsonConvert.SerializeObject(courseData.Components));
         }
 
-        public async Task CreateJsonFileAsync(string folder, string filename, string content)
+        public void CreateJsonFile(string folder, string filename, string content)
         {
             var filePath = folder + "\\" + filename;
 
-            using (var file = File.CreateText(filePath))
+            // lock access to files
+            lock (FileAccessLock)
             {
-                await file.WriteAsync(content);
+                using (var file = File.CreateText(filePath))
+                {
+                    file.Write(content);
+                }
             }
         }
 

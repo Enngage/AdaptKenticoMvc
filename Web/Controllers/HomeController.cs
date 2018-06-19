@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Adapt;
+﻿using System.Threading.Tasks;
 using CloudIntegration;
 using Microsoft.AspNetCore.Mvc;
 

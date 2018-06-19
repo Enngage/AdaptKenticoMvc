@@ -1,8 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Adapt;
+using Adapt.Model;
 using CloudIntegration;
+using CloudIntegration.Models;
 using Microsoft.AspNetCore.Mvc;
+using Web.Models;
 using Web.Services;
 
 namespace Web.Controllers
@@ -23,7 +27,7 @@ namespace Web.Controllers
 
         [HttpGet]
         [Route("List")]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> ListAsync()
         {
             var courses = await CourseService.GetSupportedCoursesAsync();
 
@@ -39,7 +43,34 @@ namespace Web.Controllers
         [HttpGet]
         [Route("index")]
         [Route("")]
-        public async Task<IActionResult> Index([FromQuery] string projectId, bool debug = false)
+        public async Task<IActionResult> IndexAsync([FromQuery] string projectId, bool debug = false)
+        {
+            var result = await GenerateCourseDataAsync(projectId);
+
+            if (debug)
+            {
+                return new ObjectResult(result.CourseData);
+            }
+
+            return new ObjectResult($"Data for course '{result.Course.CourseName}' with projectId '{projectId}' have been generated.");
+        }
+
+        [HttpPost]
+        [Route("UpdateCourse")]
+        public async Task<IActionResult> UpdateCourseAsync([FromBody] WebHookModel model)
+        {
+            if (model == null)
+            {
+                throw new NotSupportedException($"Invalid web hook model");
+            }
+
+            var result = await GenerateCourseDataAsync(model.Message.ProjectId);
+
+            return new ObjectResult($"Data for course '{result.Course.CourseName}' with projectId '{model.Message.ProjectId}' have been generated.");
+        }
+
+
+        private async Task<GenerateResultModel> GenerateCourseDataAsync(string projectId)
         {
             var course = await CourseService.GetCourseMetadataAsync(projectId);
             var pages = await CourseService.GetPagesAsync(projectId);
@@ -47,19 +78,19 @@ namespace Web.Controllers
             var courseData = AdaptService.GenerateCourseData(pages);
 
             // (re)generate course json files
-            await FileService.CreateCourseJsonFilesAsync(course.CourseName, courseData);
+            FileService.CreateCourseJsonFiles(course.CourseName, courseData);
 
-            if (debug)
+            return new GenerateResultModel()
             {
-                return new ObjectResult(courseData);
-            }
-
-            return new ObjectResult($"Data for course '{course.CourseName}' with projectId '{projectId}' have been generated.");
+                Course = course,
+                CourseData = courseData
+            };
         }
 
-        [HttpPost]
-        public void Post([FromBody]string value)
+        private class GenerateResultModel
         {
+            public CourseMetadata Course { get; set; }
+            public AdaptCourseData CourseData { get; set; }
         }
 
     }

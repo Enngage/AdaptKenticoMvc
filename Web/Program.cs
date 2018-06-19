@@ -13,7 +13,7 @@ namespace Web
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                .UseUrls("http://localhost:51355")
+                .UseUrls("http://localhost:51355", "https://richardsadaptmvc.azurewebsites.net")
                 .Build();
     }
 }

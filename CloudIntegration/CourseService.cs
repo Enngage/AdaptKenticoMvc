@@ -46,7 +46,7 @@ namespace CloudIntegration
             return response.Items.ToList();
         }
 
-        public async Task<CourseMetadata> GetCourseMetadataAsync(string projectId)
+        public async Task<Package> GetCourseMetadataAsync(string projectId)
         {
             if (!(await IsCourseSupported(projectId)))
             {
@@ -56,7 +56,7 @@ namespace CloudIntegration
             // there should be only single instance of course metadata per project. Thats why
             // we take only the first one.
             return (
-                 await GetDeliveryClient(projectId).GetItemsAsync<CourseMetadata>(new LimitParameter(1))
+                 await GetDeliveryClient(projectId).GetItemsAsync<Package>(new LimitParameter(1))
                 ).Items
                 .First();
         }

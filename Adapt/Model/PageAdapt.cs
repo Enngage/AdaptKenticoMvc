@@ -7,7 +7,7 @@ namespace Adapt.Model
     public class PageAdapt : BaseAdaptModel
     {
         [JsonIgnore]
-        public List<Article> Articles { get; set; }
+        public List<Section> Articles { get; set; }
 
         [JsonProperty("body")]
         public string Body { get; set; }

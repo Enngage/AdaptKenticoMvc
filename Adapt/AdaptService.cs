@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Adapt.Model;
 using Adapt.Model.Components;
-using AngleSharp.Dom.Css;
+using CloudIntegration;
 using CloudIntegration.Models;
-using CloudIntegration.Models.Components;
 using KenticoCloud.Delivery;
 
 namespace Adapt
@@ -16,6 +15,13 @@ namespace Adapt
         /// This is id of the 'contentObject' item that is required by Adapt (by default)
         /// </summary>
         private const string DefaultPageParentId = "course";
+
+        private IComponentService ComponentService { get; }
+
+        public AdaptService(IComponentService componentService)
+        {
+            ComponentService = componentService;
+        }
 
         public AdaptCourseData GenerateCourseData(List<Page> inputPages)
         {
@@ -48,7 +54,7 @@ namespace Adapt
             return new AdaptCourseData(pages, articles, blocks, components);
         }
 
-        public List<ArticleAdapt> GetArticles(PageAdapt parent, List<Article> inputArticles)
+        public List<ArticleAdapt> GetArticles(PageAdapt parent, List<Section> inputArticles)
         {
             return inputArticles.Select(m => new ArticleAdapt()
             {
@@ -77,54 +83,14 @@ namespace Adapt
 
         public List<BaseAdaptComponent> GetComponents(BlockAdapt parent, List<IBaseComponent> inputComponents)
         {
-            var components = new List<BaseAdaptComponent>();
-
-            foreach (var inputComponent in inputComponents)
-            {
-                if (inputComponent is TextComponent textComponent)
-                {
-                    components.Add(new TextComponentAdapt()
-                    {
-                        Id = textComponent.System.Id,
-                        ParentId = parent.Id,
-                        Title = textComponent.BasecomponentTitle,
-                        DisplayTitle = textComponent.BasecomponentDisplayTitle,
-                        Body = textComponent.Body,
-                        Instructions = textComponent.BasecomponentInstructions,
-                        Layout = GetLayout(textComponent.BasecomponentLayout)
-                    });
-                }
-                else if (inputComponent is GraphicComponent graphicComponent)
-                {
-                    components.Add(new GraphicComponentAdapt()
-                    {
-                        Id = graphicComponent.System.Id,
-                        ParentId = parent.Id,
-                        Title = graphicComponent.BasecomponentTitle,
-                        DisplayTitle = graphicComponent.BasecomponentDisplayTitle,
-                        Instructions = graphicComponent.BasecomponentInstructions,
-                        Layout = GetLayout(graphicComponent.BasecomponentLayout),
-                        Graphic = new FullGraphic()
-                        {
-                            Alt = graphicComponent.Alt,
-                            LargeSrc = graphicComponent.LargeImage.FirstOrDefault()?.Url,
-                            SmallSrc = graphicComponent.SmallImage.FirstOrDefault()?.Url
-                        }
-                    });
-                }
-                else
-                {
-                    throw new NotSupportedException($"Unsupported component type '{inputComponent.GetType().Name}' for component '{inputComponent.System.Codename}'");
-                }
-            }
-            return components;
-    }
+            return ComponentService.GetAllComponents(parent, inputComponents, false);
+        }
 
         public List<PageAdapt> GetPages(List<Page> inputPages)
         {
             return inputPages.Select(m => new PageAdapt()
             {
-                Articles = m.Articles.ToList(),
+                Articles = m.Sections.ToList(),
                 Id = m.System.Id,
                 ParentId = DefaultPageParentId,
                 Body = m.Text,
@@ -136,12 +102,6 @@ namespace Adapt
                 Title = m.Title,
                 DisplayTitle = m.DisplayTitle
             }).ToList();
-        }
-
-        private string GetLayout(IEnumerable<MultipleChoiceOption> options)
-        {
-            // its a radio button and we are interested only in first value
-            return options?.FirstOrDefault()?.Name?.ToLower();
         }
 
         private SimpleGraphic GetGraphics(IEnumerable<Asset> assets)

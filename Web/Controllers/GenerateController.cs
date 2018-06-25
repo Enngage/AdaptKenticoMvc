@@ -89,7 +89,7 @@ namespace Web.Controllers
 
         private class GenerateResultModel
         {
-            public CourseMetadata Course { get; set; }
+            public Package Course { get; set; }
             public AdaptCourseData CourseData { get; set; }
         }
 

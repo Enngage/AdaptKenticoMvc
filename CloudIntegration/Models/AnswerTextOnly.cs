@@ -4,16 +4,20 @@
 // Changes to this file may cause incorrect behavior and will be lost if the code is regenerated. 
 // For further modifications of the class, create a separate file with the partial class.
 
+using System;
+using System.Collections.Generic;
 using KenticoCloud.Delivery;
 
 namespace CloudIntegration.Models
 {
-    public partial class CourseMetadata
+    public partial class AnswerTextOnly
     {
-        public const string Codename = "course_metadata";
-        public const string CourseNameCodename = "course_name";
+        public const string Codename = "answer__text_only_";
+        public const string IsThisACorrectAnswerCodename = "is_this_a_correct_answer_";
+        public const string AnswerCodename = "answer";
 
-        public string CourseName { get; set; }
+        public IEnumerable<MultipleChoiceOption> IsThisACorrectAnswer { get; set; }
+        public string Answer { get; set; }
         public ContentItemSystemAttributes System { get; set; }
     }
 }

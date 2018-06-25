@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using KenticoCloud.Delivery;
 
-namespace CloudIntegration.Models
+namespace CloudIntegration
 {
     public interface IBaseComponent
     {

@@ -37,6 +37,7 @@ namespace Web
             services.AddMvc();
             services.AddRouting();
 
+            services.AddScoped<IComponentService, ComponentService>();
             services.AddScoped<ICourseService, CourseService>(
                 service => new CourseService(config.MasterProjectId));
             services.AddScoped<IAdaptService, AdaptService>();

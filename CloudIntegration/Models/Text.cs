@@ -4,26 +4,32 @@
 // Changes to this file may cause incorrect behavior and will be lost if the code is regenerated. 
 // For further modifications of the class, create a separate file with the partial class.
 
-
+using System;
 using System.Collections.Generic;
 using KenticoCloud.Delivery;
 
-namespace CloudIntegration.Models.Components
+namespace CloudIntegration.Models
 {
-    public partial class TextComponent : IBaseComponent
+    public partial class Text : BaseComponent
     {
-        public const string Codename = "text_component";
+        public const string Codename = "text";
         public const string BasecomponentDisplayTitleCodename = "basecomponent__display_title";
+        public const string BasecomponentIsRequiredCodename = "basecomponent__is_required_";
         public const string BasecomponentLayoutCodename = "basecomponent__layout";
-        public const string BasecomponentTitleCodename = "basecomponent__title";
+        public const string BasecomponentIncludeInProgressCodename = "basecomponent__include_in_progress_";
+        public const string BasecomponentCompontentClassesCodename = "basecomponent__compontent_classes";
         public const string BodyCodename = "body";
+        public const string BasecomponentTitleCodename = "basecomponent__title";
         public const string BasecomponentInstructionsCodename = "basecomponent__instructions";
 
         public string BasecomponentDisplayTitle { get; set; }
+        public IEnumerable<MultipleChoiceOption> BasecomponentIsRequired { get; set; }
         public IEnumerable<MultipleChoiceOption> BasecomponentLayout { get; set; }
-        public string BasecomponentTitle { get; set; }
+        public IEnumerable<MultipleChoiceOption> BasecomponentIncludeInProgress { get; set; }
+        public IEnumerable<TaxonomyTerm> BasecomponentCompontentClasses { get; set; }
         public string Body { get; set; }
+        public string BasecomponentTitle { get; set; }
         public string BasecomponentInstructions { get; set; }
-        public ContentItemSystemAttributes System { get; set; }
+        public override ContentItemSystemAttributes System { get; set; }
     }
 }

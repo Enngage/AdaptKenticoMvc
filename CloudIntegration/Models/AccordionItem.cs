@@ -10,18 +10,16 @@ using KenticoCloud.Delivery;
 
 namespace CloudIntegration.Models
 {
-    public partial class Block : BaseComponent
+    public partial class AccordionItem 
     {
-        public const string Codename = "block";
-        public const string DisplayTitleCodename = "display_title";
-        public const string BodyCodename = "body";
+        public const string Codename = "accordion_item";
+        public const string ImageCodename = "image";
         public const string TitleCodename = "title";
-        public const string ComponentsCodename = "components";
+        public const string TextCodename = "text";
 
-        public string DisplayTitle { get; set; }
-        public string Body { get; set; }
+        public IEnumerable<Asset> Image { get; set; }
         public string Title { get; set; }
-        public IEnumerable<object> Components { get; set; }
-        public override ContentItemSystemAttributes System { get; set; }
+        public string Text { get; set; }
+        public ContentItemSystemAttributes System { get; set; }
     }
 }

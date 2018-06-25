@@ -8,6 +8,6 @@ namespace CloudIntegration
     {
         Task<List<Course>> GetSupportedCoursesAsync();
         Task<List<Page>> GetPagesAsync(string projectId);
-        Task<CourseMetadata> GetCourseMetadataAsync(string projectId);
+        Task<Package> GetCourseMetadataAsync(string projectId);
     }
 }

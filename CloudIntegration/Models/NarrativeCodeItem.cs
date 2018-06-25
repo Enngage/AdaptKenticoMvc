@@ -22,6 +22,6 @@ namespace CloudIntegration.Models
         public IEnumerable<MultipleChoiceOption> AvailableLanguagesLanguage { get; set; }
         public string Code { get; set; }
         public string Title { get; set; }
-        public override ContentItemSystemAttributes System { get; set; }
+        
     }
 }

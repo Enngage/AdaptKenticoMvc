@@ -13,29 +13,15 @@ namespace CloudIntegration.Models
     public partial class NarrativeCode : BaseComponent
     {
         public const string Codename = "narrative_code";
-        public const string BasecomponentDisplayTitleCodename = "basecomponent__display_title";
-        public const string BasecomponentIsRequiredCodename = "basecomponent__is_required_";
         public const string NarrativeCodeItemsCodename = "narrative_code_items";
-        public const string BasecomponentLayoutCodename = "basecomponent__layout";
         public const string SmallInstructionsCodename = "small_instructions";
         public const string RequireAllCodeBeSeeCodename = "require_all_code_be_see_";
         public const string IntroCodename = "intro";
-        public const string BasecomponentIncludeInProgressCodename = "basecomponent__include_in_progress_";
-        public const string BasecomponentCompontentClassesCodename = "basecomponent__compontent_classes";
-        public const string BasecomponentTitleCodename = "basecomponent__title";
-        public const string BasecomponentInstructionsCodename = "basecomponent__instructions";
 
-        public string BasecomponentDisplayTitle { get; set; }
-        public IEnumerable<MultipleChoiceOption> BasecomponentIsRequired { get; set; }
         public IEnumerable<object> NarrativeCodeItems { get; set; }
-        public IEnumerable<MultipleChoiceOption> BasecomponentLayout { get; set; }
         public string SmallInstructions { get; set; }
         public IEnumerable<MultipleChoiceOption> RequireAllCodeBeSee { get; set; }
         public string Intro { get; set; }
-        public IEnumerable<MultipleChoiceOption> BasecomponentIncludeInProgress { get; set; }
         public IEnumerable<TaxonomyTerm> BasecomponentCompontentClasses { get; set; }
-        public string BasecomponentTitle { get; set; }
-        public string BasecomponentInstructions { get; set; }
-        public override ContentItemSystemAttributes System { get; set; }
     }
 }

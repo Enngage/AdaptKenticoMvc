@@ -10,7 +10,7 @@ using KenticoCloud.Delivery;
 
 namespace CloudIntegration.Models
 {
-    public partial class Block : BaseComponent
+    public partial class Block
     {
         public const string Codename = "block";
         public const string DisplayTitleCodename = "display_title";
@@ -22,6 +22,6 @@ namespace CloudIntegration.Models
         public string Body { get; set; }
         public string Title { get; set; }
         public IEnumerable<object> Components { get; set; }
-        public override ContentItemSystemAttributes System { get; set; }
+        public ContentItemSystemAttributes System { get; set; }
     }
 }

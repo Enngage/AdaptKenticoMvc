@@ -13,25 +13,11 @@ namespace CloudIntegration.Models
     public partial class Accordion :  BaseComponent
     {
         public const string Codename = "accordion";
-        public const string BasecomponentDisplayTitleCodename = "basecomponent__display_title";
-        public const string BasecomponentIsRequiredCodename = "basecomponent__is_required_";
-        public const string BasecomponentLayoutCodename = "basecomponent__layout";
         public const string AccordionItemsCodename = "accordion_items";
-        public const string BasecomponentIncludeInProgressCodename = "basecomponent__include_in_progress_";
         public const string DescriptionCodename = "description";
-        public const string BasecomponentCompontentClassesCodename = "basecomponent__compontent_classes";
-        public const string BasecomponentTitleCodename = "basecomponent__title";
-        public const string BasecomponentInstructionsCodename = "basecomponent__instructions";
 
-        public string BasecomponentDisplayTitle { get; set; }
-        public IEnumerable<MultipleChoiceOption> BasecomponentIsRequired { get; set; }
-        public IEnumerable<MultipleChoiceOption> BasecomponentLayout { get; set; }
         public IEnumerable<object> AccordionItems { get; set; }
-        public IEnumerable<MultipleChoiceOption> BasecomponentIncludeInProgress { get; set; }
         public string Description { get; set; }
-        public IEnumerable<TaxonomyTerm> BasecomponentCompontentClasses { get; set; }
-        public string BasecomponentTitle { get; set; }
-        public string BasecomponentInstructions { get; set; }
-        public override ContentItemSystemAttributes System { get; set; }
+
     }
 }

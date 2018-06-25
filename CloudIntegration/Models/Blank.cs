@@ -13,11 +13,10 @@ namespace CloudIntegration.Models
     public partial class Blank : BaseComponent
     {
         public const string Codename = "blank";
-        public const string CompontentClassesCodename = "compontent_classes";
+        public const string ComponentClassesCodename = "component_classes";
         public const string LayoutCodename = "layout";
 
-        public IEnumerable<TaxonomyTerm> CompontentClasses { get; set; }
+        public IEnumerable<TaxonomyTerm> ComponentClasses { get; set; }
         public IEnumerable<MultipleChoiceOption> Layout { get; set; }
-        public override ContentItemSystemAttributes System { get; set; }
     }
 }

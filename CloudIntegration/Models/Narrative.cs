@@ -13,29 +13,14 @@ namespace CloudIntegration.Models
     public partial class Narrative : BaseComponent
     {
         public const string Codename = "narrative";
-        public const string BasecomponentDisplayTitleCodename = "basecomponent__display_title";
-        public const string BasecomponentIsRequiredCodename = "basecomponent__is_required_";
         public const string IntroCodename = "intro";
-        public const string BasecomponentLayoutCodename = "basecomponent__layout";
         public const string SmallInstructionsCodename = "small_instructions";
         public const string NarrativeItemsCodename = "narrative_items";
-        public const string BasecomponentIncludeInProgressCodename = "basecomponent__include_in_progress_";
-        public const string BasecomponentCompontentClassesCodename = "basecomponent__compontent_classes";
-        public const string BasecomponentTitleCodename = "basecomponent__title";
-        public const string BasecomponentInstructionsCodename = "basecomponent__instructions";
         public const string RequireAllItemsBeSeenCodename = "require_all_items_be_seen_";
 
-        public string BasecomponentDisplayTitle { get; set; }
-        public IEnumerable<MultipleChoiceOption> BasecomponentIsRequired { get; set; }
         public string Intro { get; set; }
-        public IEnumerable<MultipleChoiceOption> BasecomponentLayout { get; set; }
         public string SmallInstructions { get; set; }
         public IEnumerable<object> NarrativeItems { get; set; }
-        public IEnumerable<MultipleChoiceOption> BasecomponentIncludeInProgress { get; set; }
-        public IEnumerable<TaxonomyTerm> BasecomponentCompontentClasses { get; set; }
-        public string BasecomponentTitle { get; set; }
-        public string BasecomponentInstructions { get; set; }
         public IEnumerable<MultipleChoiceOption> RequireAllItemsBeSeen { get; set; }
-        public override ContentItemSystemAttributes System { get; set; }
     }
 }

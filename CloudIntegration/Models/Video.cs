@@ -13,31 +13,17 @@ namespace CloudIntegration.Models
     public partial class Video : BaseComponent
     {
         public const string Codename = "video";
-        public const string BasecomponentDisplayTitleCodename = "basecomponent__display_title";
         public const string SetCompletionOnCodename = "set_completion_on";
-        public const string BasecomponentIsRequiredCodename = "basecomponent__is_required_";
-        public const string BasecomponentLayoutCodename = "basecomponent__layout";
         public const string VideoFileCodename = "videofile";
         public const string DescriptionCodename = "description";
         public const string TranscriptCodename = "transcript";
-        public const string BasecomponentIncludeInProgressCodename = "basecomponent__include_in_progress_";
-        public const string BasecomponentCompontentClassesCodename = "basecomponent__compontent_classes";
-        public const string BasecomponentTitleCodename = "basecomponent__title";
         public const string LoadingImageCodename = "loading_image";
-        public const string BasecomponentInstructionsCodename = "basecomponent__instructions";
 
-        public string BasecomponentDisplayTitle { get; set; }
         public IEnumerable<MultipleChoiceOption> SetCompletionOn { get; set; }
-        public IEnumerable<MultipleChoiceOption> BasecomponentIsRequired { get; set; }
-        public IEnumerable<MultipleChoiceOption> BasecomponentLayout { get; set; }
         public IEnumerable<Asset> VideoFile { get; set; }
         public string Description { get; set; }
         public string Transcript { get; set; }
-        public IEnumerable<MultipleChoiceOption> BasecomponentIncludeInProgress { get; set; }
         public IEnumerable<TaxonomyTerm> BasecomponentCompontentClasses { get; set; }
-        public string BasecomponentTitle { get; set; }
         public IEnumerable<Asset> LoadingImage { get; set; }
-        public string BasecomponentInstructions { get; set; }
-        public override ContentItemSystemAttributes System { get; set; }
     }
 }

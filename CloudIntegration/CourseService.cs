@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CloudIntegration.Models;
+using CloudIntegration.Resolvers;
 using KenticoCloud.Delivery;
 
 namespace CloudIntegration
@@ -64,7 +65,7 @@ namespace CloudIntegration
 
         private IDeliveryClient GetDeliveryClient(string projectId, bool waitForLoadingNewContent = false)
         {
-            return new DeliveryClient(new DeliveryOptions()
+            var client = new DeliveryClient(new DeliveryOptions()
             {
                 ProjectId = projectId,
                 WaitForLoadingNewContent = waitForLoadingNewContent
@@ -72,6 +73,10 @@ namespace CloudIntegration
             {
                 CodeFirstModelProvider = { TypeProvider = new CustomTypeProvider() }
             };
+
+            client.InlineContentItemsProcessor.RegisterTypeResolver(new InlineCodeResolver());
+
+            return client;
         }
     }
 }

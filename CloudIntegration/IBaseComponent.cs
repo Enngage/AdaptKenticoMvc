@@ -7,7 +7,7 @@ namespace CloudIntegration
     {
         ContentItemSystemAttributes System { get; set; }
         IEnumerable<TaxonomyTerm> ComponentClasses { get; set; }
-        IEnumerable<MultipleChoiceOption> IsRequired { get; set; }
+        IEnumerable<MultipleChoiceOption> IsOptional { get; set; }
         string DisplayTitle { get; set; }
         IEnumerable<MultipleChoiceOption> Layout { get; set; }
         string Title { get; set; }

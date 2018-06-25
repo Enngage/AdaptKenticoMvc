@@ -7,7 +7,7 @@ namespace CloudIntegration
     public abstract class BaseComponent : IBaseComponent
     {
         public const string BasecomponentDisplayTitleCodename = "basecomponent__display_title";
-        public const string BasecomponentIsRequiredCodename = "basecomponent__is_required_";
+        public const string BasecomponentIsOptionalCodename = "basecomponent__is_optional_";
         public const string BasecomponentLayoutCodename = "basecomponent__layout";
         public const string BasecomponentIncludeInProgressCodename = "basecomponent__include_in_progress_";
         public const string BasecomponentComponentClassesCodename = "basecomponent__component_classes";
@@ -19,8 +19,8 @@ namespace CloudIntegration
         [JsonProperty(BasecomponentComponentClassesCodename)]
         public IEnumerable<TaxonomyTerm> ComponentClasses { get; set; }
 
-        [JsonProperty(BasecomponentIsRequiredCodename)]
-        public IEnumerable<MultipleChoiceOption> IsRequired { get; set; }
+        [JsonProperty(BasecomponentIsOptionalCodename)]
+        public IEnumerable<MultipleChoiceOption> IsOptional { get; set; }
 
         [JsonProperty(BasecomponentDisplayTitleCodename)]
         public string DisplayTitle { get; set; }

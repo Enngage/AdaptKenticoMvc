@@ -12,7 +12,11 @@ using KenticoCloud.Delivery;
 namespace Adapt
 {
     public class ComponentService : IComponentService
+
     {
+
+        public const string IsRequiredYesOption = "yes";
+
         public List<BaseAdaptComponent> GetAllComponents(BlockAdapt parent, List<IBaseComponent> inputComponents, bool throwExceptionForUnsupportedTypes)
         {
             var components = new List<BaseAdaptComponent>();
@@ -27,6 +31,10 @@ namespace Adapt
                 else if (inputComponent is Graphic graphicsComponent)
                 {
                     component = GetGraphicComponent(graphicsComponent);
+                }
+                else if (inputComponent is Accordion accordionComponent)
+                {
+                    component = GetAccordionComponent(accordionComponent);
                 }
                 else
                 {
@@ -50,6 +58,12 @@ namespace Adapt
                     component.Instructions = inputComponent.Instructions;
                     component.Layout = GetLayout(inputComponent.Layout);
                     component.Title = inputComponent.Title;
+                    component.IsOptional = IsYesOptionChecked(inputComponent.IsOptional);
+                    component.Classes = string.Join(" ", inputComponent.ComponentClasses.Select(m => m.Name)); // take name because codename might ruin class name
+                    component.PageLevelProgress = new PageLevelProgressAdapt()
+                    {
+                        IsEnabled = IsYesOptionChecked(inputComponent.IncludeInProgress)
+                    };
 
                     components.Add(component);
                 }
@@ -57,6 +71,28 @@ namespace Adapt
             }
 
             return components;
+        }
+
+        public bool IsYesOptionChecked(IEnumerable<MultipleChoiceOption> options)
+        {
+            return options?.FirstOrDefault()?.Codename.Equals(IsRequiredYesOption, StringComparison.OrdinalIgnoreCase) ?? false;
+        }
+
+        public SimpleGraphic GetSimpleGraphic(IEnumerable<Asset> assets)
+        {
+            // take only one asset
+            var asset = assets.FirstOrDefault();
+
+            if (asset == null)
+            {
+                return null;
+            }
+
+            return new SimpleGraphic()
+            {
+                Alt = asset.Name,
+                Src = asset.Url
+            };
         }
 
         public GraphicComponentAdapt GetGraphicComponent(Graphic inputComponent)
@@ -73,6 +109,20 @@ namespace Adapt
             };
         }
 
+        public AccordionComponentAdapt GetAccordionComponent(Accordion inputComponent)
+        {
+            return new AccordionComponentAdapt()
+            {
+                Id = inputComponent.System.Id,
+                Body = inputComponent.Description,
+                Items = inputComponent.AccordionItems.Select(m => new AccordionItemAdapt()
+                {
+                    Graphic = GetSimpleGraphic(m.Image),
+                    Title = m.Title,
+                    Body = m.Text
+                }).ToList(),
+            };
+        }
 
         public TextComponentAdapt GetTextComponent(Text inputComponent)
         {

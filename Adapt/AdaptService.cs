@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Adapt.Model;
-using Adapt.Model.Components;
 using CloudIntegration;
 using CloudIntegration.Models;
-using KenticoCloud.Delivery;
 
 namespace Adapt
 {
@@ -98,27 +95,12 @@ namespace Adapt
                 Instructions = m.Instructions,
                 LinkText = m.LinkText,
                 PageBody = m.Text,
-                Graphic = GetGraphics(m.Image),
+                Graphic = ComponentService.GetSimpleGraphic(m.Image),
                 Title = m.Title,
                 DisplayTitle = m.DisplayTitle
             }).ToList();
         }
 
-        private SimpleGraphic GetGraphics(IEnumerable<Asset> assets)
-        {
-            // take only one asset
-            var asset = assets.FirstOrDefault();
-
-            if (asset == null)
-            {
-                return null;
-            }
-
-            return new SimpleGraphic()
-            {
-                Alt = asset.Name,
-                Src = asset.Url
-            };
-        }
+       
     }
 }

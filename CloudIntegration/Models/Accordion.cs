@@ -9,7 +9,7 @@ namespace CloudIntegration.Models
         public const string AccordionItemsCodename = "accordion_items";
         public const string DescriptionCodename = "description";
 
-        public IEnumerable<object> AccordionItems { get; set; }
+        public IEnumerable<AccordionItem> AccordionItems { get; set; }
         public string Description { get; set; }
 
     }

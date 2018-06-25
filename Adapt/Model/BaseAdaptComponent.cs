@@ -15,6 +15,15 @@ namespace Adapt.Model
 
         [JsonProperty("_component")] public string ComponentJson => Component.Type;
 
+        [JsonProperty("_pageLevelProgress")]
+        public PageLevelProgressAdapt PageLevelProgress { get; set; }
+
+        [JsonProperty("_isOptional")]
+        public bool IsOptional { get; set; }
+
+        [JsonProperty("_classes")]
+        public string Classes { get; set; }
+
         [JsonIgnore]
         public abstract AdaptComponentType Component { get; }
     }

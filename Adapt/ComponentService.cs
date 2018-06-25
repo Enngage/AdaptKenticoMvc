@@ -46,10 +46,10 @@ namespace Adapt
                 {
                     // set shared data
                     component.ParentId = parent.Id;
-                    component.DisplayTitle = inputComponent.BasecomponentDisplayTitle;
-                    component.Instructions = inputComponent.BasecomponentInstructions;
-                    component.Layout = GetLayout(inputComponent.BasecomponentLayout);
-                    component.Title = inputComponent.BasecomponentTitle;
+                    component.DisplayTitle = inputComponent.DisplayTitle;
+                    component.Instructions = inputComponent.Instructions;
+                    component.Layout = GetLayout(inputComponent.Layout);
+                    component.Title = inputComponent.Title;
 
                     components.Add(component);
                 }

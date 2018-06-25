@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using KenticoCloud.Delivery;
+using Newtonsoft.Json;
 
 namespace CloudIntegration
 {
@@ -13,14 +14,28 @@ namespace CloudIntegration
         public const string BasecomponentTitleCodename = "basecomponent__title";
         public const string BasecomponentInstructionsCodename = "basecomponent__instructions";
 
-        public  IEnumerable<TaxonomyTerm> BasecomponentComponentClasses { get; set; }
-        public  IEnumerable<MultipleChoiceOption> BasecomponentIsRequired { get; set; }
-        public  string BasecomponentDisplayTitle { get; set; }
-        public  IEnumerable<MultipleChoiceOption> BasecomponentLayout { get; set; }
-        public  string BasecomponentTitle { get; set; }
-        public  string BasecomponentInstructions { get; set; }
-        public  ContentItemSystemAttributes System { get; set; }
-        public  IEnumerable<MultipleChoiceOption> BasecomponentIncludeInProgress { get; set; }
+        public ContentItemSystemAttributes System { get; set; }
+
+        [JsonProperty(BasecomponentComponentClassesCodename)]
+        public IEnumerable<TaxonomyTerm> ComponentClasses { get; set; }
+
+        [JsonProperty(BasecomponentIsRequiredCodename)]
+        public IEnumerable<MultipleChoiceOption> IsRequired { get; set; }
+
+        [JsonProperty(BasecomponentDisplayTitleCodename)]
+        public string DisplayTitle { get; set; }
+
+        [JsonProperty(BasecomponentLayoutCodename)]
+        public IEnumerable<MultipleChoiceOption> Layout { get; set; }
+
+        [JsonProperty(BasecomponentTitleCodename)]
+        public string Title { get; set; }
+
+        [JsonProperty(BasecomponentInstructionsCodename)]
+        public string Instructions { get; set; }
+
+        [JsonProperty(BasecomponentIncludeInProgressCodename)]
+        public IEnumerable<MultipleChoiceOption> IncludeInProgress { get; set; }
 
     }
 }

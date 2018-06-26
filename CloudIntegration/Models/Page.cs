@@ -5,7 +5,7 @@ using KenticoCloud.Delivery;
 
 namespace CloudIntegration.Models
 {
-    public partial class Page
+    public partial class Page : CourseVersion
     {
         public const string Codename = "page";
         public const string InstructionsCodename = "instructions";
@@ -16,6 +16,7 @@ namespace CloudIntegration.Models
         public const string SectionsCodename = "sections";
         public const string ImageCodename = "image";
         public const string TextCodename = "text";
+
 
         public string Instructions { get; set; }
         public decimal? Duration { get; set; }

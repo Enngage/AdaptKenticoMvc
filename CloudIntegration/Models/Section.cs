@@ -5,7 +5,7 @@ using KenticoCloud.Delivery;
 
 namespace CloudIntegration.Models
 {
-    public partial class Section
+    public partial class Section : CourseVersion
     {
         public const string Codename = "section";
         public const string BodyCodename = "body";

@@ -5,7 +5,7 @@ using KenticoCloud.Delivery;
 
 namespace CloudIntegration.Models
 {
-    public partial class Block
+    public partial class Block : CourseVersion
     {
         public const string Codename = "block";
         public const string DisplayTitleCodename = "display_title";

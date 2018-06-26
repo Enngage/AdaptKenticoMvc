@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Threading.Tasks;
 using Adapt.Model;
 using Newtonsoft.Json;
 using Web.Extensions;
@@ -18,17 +17,17 @@ namespace Web.Services
             Config = config;
         }
 
-        public void CreateCourseJsonFiles(string projectName, AdaptCourseData courseData)
+        public void CreateCourseJsonFiles(string projectName, string language, AdaptCourseData courseData, string courseVersion)
         {
-            var courseDir = GetCourseFolder(projectName);
+            var courseDir = GetCourseFolder(projectName, language, courseVersion);
 
             // make sure directory for course exists
             Directory.CreateDirectory(courseDir);
 
-             CreateJsonFile(courseDir, Config.ContentObjectsFilename, JsonConvert.SerializeObject(courseData.Pages));
-             CreateJsonFile(courseDir, Config.ArticlesFilename, JsonConvert.SerializeObject(courseData.Articles));
-             CreateJsonFile(courseDir, Config.BlocksFilename, JsonConvert.SerializeObject(courseData.Blocks));
-             CreateJsonFile(courseDir, Config.ComponentsFilename, JsonConvert.SerializeObject(courseData.Components));
+            CreateJsonFile(courseDir, Config.ContentObjectsFilename, JsonConvert.SerializeObject(courseData.Pages));
+            CreateJsonFile(courseDir, Config.ArticlesFilename, JsonConvert.SerializeObject(courseData.Articles));
+            CreateJsonFile(courseDir, Config.BlocksFilename, JsonConvert.SerializeObject(courseData.Blocks));
+            CreateJsonFile(courseDir, Config.ComponentsFilename, JsonConvert.SerializeObject(courseData.Components));
         }
 
         public void CreateJsonFile(string folder, string filename, string content)
@@ -45,9 +44,9 @@ namespace Web.Services
             }
         }
 
-        public string GetCourseFolder(string projectName)
+        public string GetCourseFolder(string projectName, string language, string courseVersion = null)
         {
-            return $"{Config.RootFolder}\\{Config.CoursesFolderName}\\{projectName.ToCodename()}";
+            return $"{Config.RootFolder}\\{Config.CoursesFolderName}\\{projectName.ToCodename()}\\{language}\\{(string.IsNullOrEmpty(courseVersion) ? Config.DefaultAllCourseDataFolder : courseVersion)}";
         }
     }
 }

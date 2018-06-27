@@ -15,7 +15,7 @@ namespace CloudIntegration.Models
 
         public string Intro { get; set; }
         public string SmallInstructions { get; set; }
-        public IEnumerable<object> NarrativeItems { get; set; }
+        public IEnumerable<NarrativeItem> NarrativeItems { get; set; }
         public IEnumerable<MultipleChoiceOption> RequireAllItemsBeSeen { get; set; }
     }
 }

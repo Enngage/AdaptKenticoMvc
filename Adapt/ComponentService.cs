@@ -38,6 +38,10 @@ namespace Adapt
                 {
                     component = new McqComponentAdapt(parent.Id, mcqtComponent);
                 }
+                else if (inputComponent is Narrative narrativeComponent)
+                {
+                    component = new NarrativeComponentAdapt(parent.Id, narrativeComponent);
+                }
                 else
                 {
                     if (throwExceptionForUnsupportedTypes)

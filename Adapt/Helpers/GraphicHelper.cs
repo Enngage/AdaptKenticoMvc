@@ -5,7 +5,7 @@ using KenticoCloud.Delivery;
 
 namespace Adapt.Helpers
 {
-    public static class GraphicsHelper
+    public static class GraphicHelper
     {
         public static SimpleGraphic GetSimpleGraphic(IEnumerable<Asset> assets)
         {

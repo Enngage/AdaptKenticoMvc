@@ -22,7 +22,7 @@ namespace Adapt.Model.Components
             Body = inputComponent.Description;
             Items = inputComponent.AccordionItems.Select(m => new AccordionItemAdapt()
             {
-                Graphic = GraphicsHelper.GetSimpleGraphic(m.Image),
+                Graphic = GraphicHelper.GetSimpleGraphic(m.Image),
                 Title = m.Title,
                 Body = m.Text
             }).ToList();

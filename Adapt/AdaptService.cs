@@ -115,7 +115,7 @@ namespace Adapt
                 Instructions = m.Instructions,
                 LinkText = m.LinkText,
                 PageBody = m.Text,
-                Graphic = GraphicsHelper.GetSimpleGraphic(m.Image),
+                Graphic = GraphicHelper.GetSimpleGraphic(m.Image),
                 Title = m.Title,
                 DisplayTitle = m.DisplayTitle
             }).ToList();

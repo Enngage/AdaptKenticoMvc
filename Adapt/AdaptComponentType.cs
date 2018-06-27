@@ -9,6 +9,7 @@
         public static readonly AdaptComponentType Graphic = new AdaptComponentType("graphic");
         public static readonly AdaptComponentType Media = new AdaptComponentType("media");
         public static readonly AdaptComponentType Mcq = new AdaptComponentType("mcq");
+        public static readonly AdaptComponentType Narrative = new AdaptComponentType("narrative");
 
         private AdaptComponentType(string type)
         {

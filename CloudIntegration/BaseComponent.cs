@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace CloudIntegration
 {
-    public abstract class BaseComponent : CourseVersion, IBaseComponent
+    public abstract class BaseComponent : IBaseComponent
     {
         public const string BasecomponentDisplayTitleCodename = "basecomponent__display_title";
         public const string BasecomponentIsOptionalCodename = "basecomponent__is_optional_";

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Adapt.Helpers;
 using Adapt.Model;
 using CloudIntegration;
 using CloudIntegration.Models;
@@ -19,7 +20,6 @@ namespace Adapt
         {
             ComponentService = componentService;
         }
-
 
         /// <summary>
         /// Adapt will fail with NO ERROR if there is a parent with no child items (i.e. article without blocks, block without components...)
@@ -115,7 +115,7 @@ namespace Adapt
                 Instructions = m.Instructions,
                 LinkText = m.LinkText,
                 PageBody = m.Text,
-                Graphic = ComponentService.GetSimpleGraphic(m.Image),
+                Graphic = GraphicsHelper.GetSimpleGraphic(m.Image),
                 Title = m.Title,
                 DisplayTitle = m.DisplayTitle
             }).ToList();

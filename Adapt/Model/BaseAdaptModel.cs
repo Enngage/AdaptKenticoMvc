@@ -5,7 +5,7 @@ namespace Adapt.Model
     public abstract class BaseAdaptModel
     {
         [JsonProperty("_id")]
-        public string Id { get; set; }
+        public string Id { get;  set; }
 
         [JsonProperty("_parentId")]
         public string ParentId { get; set; }

@@ -12,5 +12,6 @@ namespace Adapt
         List<BlockAdapt> GetBlocks(ArticleAdapt parent, List<Block> inputBlocks);
         List<BaseAdaptComponent> GetComponents(BlockAdapt parent, List<IBaseComponent> inputComponents);
         List<PageAdapt> GetPages(List<Page> inputPages);
+
     }
 }

@@ -16,7 +16,7 @@ namespace CloudIntegration.Models
         public string DisplayTitle { get; set; }
         public string Body { get; set; }
         public string Title { get; set; }
-        public IEnumerable<object> Components { get; set; }
+        public List<object> Components { get; set; }
         public ContentItemSystemAttributes System { get; set; }
     }
 }

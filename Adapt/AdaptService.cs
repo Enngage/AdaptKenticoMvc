@@ -20,36 +20,56 @@ namespace Adapt
             ComponentService = componentService;
         }
 
+
+        /// <summary>
+        /// Adapt will fail with NO ERROR if there is a parent with no child items (i.e. article without blocks, block without components...)
+        /// Make sure that such parents are not added to final result
+        /// </summary>
         public AdaptCourseData GenerateCourseData(List<Page> inputPages)
         {
-            var pages = GetPages(inputPages);
+            var pages = new List<PageAdapt>();
             var articles = new List<ArticleAdapt>();
             var blocks = new List<BlockAdapt>();
             var components = new List<BaseAdaptComponent>();
 
-            foreach (var page in pages)
+            foreach (var page in GetPages(inputPages))
             {
-                // generate page articles
-                var pageArticles = GetArticles(page, page.Articles);
-                articles.AddRange(pageArticles);
+                var pageArticles = new List<ArticleAdapt>();
 
-                foreach (var pageArticle in pageArticles)
+                foreach (var pageArticle in GetArticles(page, page.Articles))
                 {
-                    // generate article blocks
-                    var articleBlocks = GetBlocks(pageArticle, pageArticle.Blocks);
-                    blocks.AddRange(articleBlocks);
+                    var articleBlocks = new List<BlockAdapt>();
 
-                    foreach (var articleBlock in articleBlocks)
+                    foreach (var articleBlock in GetBlocks(pageArticle, pageArticle.Blocks))
                     {
                         // generate block components
                         var blockComponents = GetComponents(articleBlock, articleBlock.Components);
-                        components.AddRange(blockComponents);
+                    
+                        // only add blocks with components
+                        if (blockComponents.Any())
+                        {
+                            components.AddRange(blockComponents);
+                            articleBlocks.Add(articleBlock);
+                        }
                     }
+
+                    if (articleBlocks.Any())
+                    {
+                        blocks.AddRange(articleBlocks);
+                        pageArticles.Add(pageArticle);
+                    }
+                }
+
+                if (pageArticles.Any())
+                {
+                    articles.AddRange(pageArticles);
+                    pages.Add(page);
                 }
             }
 
             return new AdaptCourseData(pages, articles, blocks, components);
         }
+
 
         public List<ArticleAdapt> GetArticles(PageAdapt parent, List<Section> inputArticles)
         {
@@ -101,6 +121,5 @@ namespace Adapt
             }).ToList();
         }
 
-       
     }
 }

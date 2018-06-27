@@ -14,7 +14,7 @@ namespace CloudIntegration.Models
         public const string DisplayTitleCodename = "display_title";
 
         public string Body { get; set; }
-        public IEnumerable<Block> Blocks { get; set; }
+        public List<Block> Blocks { get; set; }
         public string Title { get; set; }
         public string DisplayTitle { get; set; }
         public ContentItemSystemAttributes System { get; set; }

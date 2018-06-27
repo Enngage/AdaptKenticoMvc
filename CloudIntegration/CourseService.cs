@@ -43,12 +43,7 @@ namespace CloudIntegration
         /// <returns></returns>
         public List<Page> FilterPagesToIncludeOnlyItemsWithVersion(List<Page> pages, string courseVersion)
         {
-            if (pages == null)
-            {
-                return null;
-            }
-
-            return pages.Where(page =>
+            return pages?.Where(page =>
             {
                 page.Sections = page.Sections.Where(section =>
                 {
@@ -83,7 +78,9 @@ namespace CloudIntegration
 
             var response = await deliveryClient.GetItemsAsync<Page>(queryParams);
 
-            return FilterPagesToIncludeOnlyItemsWithVersion(response.Items.ToList(), courseVersion);
+            var pagesForGivenVersion = FilterPagesToIncludeOnlyItemsWithVersion(response.Items.ToList(), courseVersion);
+
+            return pagesForGivenVersion;
         }
 
         public async Task<List<string>> GetCourseVersionsAsync(string projectId)

@@ -20,14 +20,14 @@ namespace CloudIntegration
         /// List of 'supported' courses. This is coming from a different Kentico Cloud project which lists all courses for an overview
         /// </summary>
         /// <returns></returns>
-        public async Task<List<SupportedCourse.SupportedCourse>> GetSupportedCoursesAsync()
+        public async Task<List<SupportedCourse>> GetSupportedCoursesAsync()
         {
             var deliveryClient = GetDeliveryClient(MasterProjectId);
 
             var courses = (await deliveryClient.GetItemsAsync<Course>(new EqualsFilter("system.type", Course.Codename)))
                 .Items;
 
-            var result = (await Task.WhenAll(courses.Select(async m => new SupportedCourse.SupportedCourse()
+            var result = (await Task.WhenAll(courses.Select(async m => new SupportedCourse()
                 {
                     Course = m,
                     Versions = await GetCourseVersionsAsync(m.Projectid)
@@ -35,6 +35,28 @@ namespace CloudIntegration
             ).ToList();
 
             return result;
+        }
+
+        /// <summary>
+        /// We need to filter out all objects that do not match our version because filtering does not work on 'modular_content' currently
+        /// </summary>
+        /// <returns></returns>
+        public List<Page> FilterPagesToIncludeOnlyItemsWithVersion(List<Page> pages, string courseVersion)
+        {
+            if (pages == null)
+            {
+                return null;
+            }
+
+            return pages.Where(page =>
+            {
+                page.Sections = page.Sections.Where(section =>
+                {
+                    section.Blocks = section.Blocks.Where(block => block.ContainsVersion(courseVersion)).ToList();
+                    return section.ContainsVersion(courseVersion);
+                });
+                return page.ContainsVersion(courseVersion);
+            }).ToList();
         }
 
         /// <summary>
@@ -61,7 +83,7 @@ namespace CloudIntegration
 
             var response = await deliveryClient.GetItemsAsync<Page>(queryParams);
 
-            return response.Items.ToList();
+            return FilterPagesToIncludeOnlyItemsWithVersion(response.Items.ToList(), courseVersion);
         }
 
         public async Task<List<string>> GetCourseVersionsAsync(string projectId)

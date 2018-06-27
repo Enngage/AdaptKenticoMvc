@@ -34,6 +34,10 @@ namespace Adapt
                 {
                     component = new MediaComponentAdapt(parent.Id, videoComponent);
                 }
+                else if (inputComponent is MultipleChoiceQuestionTextOnly mcqtComponent)
+                {
+                    component = new McqComponentAdapt(parent.Id, mcqtComponent);
+                }
                 else
                 {
                     if (throwExceptionForUnsupportedTypes)

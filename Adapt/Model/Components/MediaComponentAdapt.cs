@@ -6,10 +6,6 @@ namespace Adapt.Model.Components
 {
     public class MediaComponentAdapt : BaseAdaptComponent
     {
-
-        [JsonProperty("body")]
-        public string Body { get; }
-
         /// <summary>
         /// Options: _setCompletionOn = inview | play | ended"
         /// </summary>

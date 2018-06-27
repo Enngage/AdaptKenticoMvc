@@ -1,7 +1,5 @@
 
-using System;
 using System.Collections.Generic;
-using KenticoCloud.Delivery;
 
 namespace CloudIntegration.Models
 {
@@ -16,7 +14,7 @@ namespace CloudIntegration.Models
 
         public string FeedbackIfPartlyCorrect { get; set; }
         public string QuestionText { get; set; }
-        public IEnumerable<object> Answers { get; set; }
+        public IEnumerable<AnswerTextOnly> Answers { get; set; }
         public string FeedbackIfIncorrect { get; set; }
         public string FeedbackIfCorrect { get; set; }
 

@@ -8,6 +8,7 @@
         public static readonly AdaptComponentType Accordion = new AdaptComponentType("accordion");
         public static readonly AdaptComponentType Graphic = new AdaptComponentType("graphic");
         public static readonly AdaptComponentType Media = new AdaptComponentType("media");
+        public static readonly AdaptComponentType Mcq = new AdaptComponentType("mcq");
 
         private AdaptComponentType(string type)
         {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Adapt.Helpers;
 using CloudIntegration.Models;
 using Newtonsoft.Json;
 
@@ -24,8 +25,11 @@ namespace Adapt.Model.Components
         [JsonProperty("_isRandom")]
         public bool IsRandom = true;
 
+        /// <summary>
+        /// Should contain sum of valid answers (i.e. if question has 2 correct answers, set it to 2...)
+        /// </summary>
         [JsonProperty("_selectable")]
-        public bool Selectable = true;
+        public int Selectable { get; }
 
         [JsonProperty("_shouldDisplayAttempts")]
         public bool ShouldDisplayAttempts = true;
@@ -47,10 +51,10 @@ namespace Adapt.Model.Components
             Items = inputComponent.Answers?.Select(m => new TextQuestionItem()
             {
                 Text = m.Answer,
-                ShouldBeSelected =
-                    m.IsThisACorrectAnswer.FirstOrDefault(s =>
-                        s.Codename.Equals("yes", StringComparison.OrdinalIgnoreCase)) != null
+                ShouldBeSelected = YesOptionHelper.IsYesOptionChecked(m.IsThisACorrectAnswer)
             }).ToList();
+            Selectable =
+                inputComponent.Answers?.Count(m => YesOptionHelper.IsYesOptionChecked(m.IsThisACorrectAnswer)) ?? 0;
             Feedback = new Feedback()
             {
                 Correct = inputComponent.FeedbackIfCorrect,

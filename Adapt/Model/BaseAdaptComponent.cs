@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Adapt.Helpers;
 using CloudIntegration;
 using KenticoCloud.Delivery;
 using Newtonsoft.Json;
@@ -10,7 +11,6 @@ namespace Adapt.Model
 {
     public abstract class BaseAdaptComponent : BaseAdaptModel
     {
-        public const string IsRequiredYesOption = "yes";
 
         public override AdaptModelType Type { get; } = AdaptModelType.Component;
 
@@ -42,18 +42,15 @@ namespace Adapt.Model
             Instructions = inputComponent.Instructions;
             Layout = GetLayout(inputComponent.Layout);
             Title = inputComponent.Title;
-            IsOptional = IsYesOptionChecked(inputComponent.IsOptional);
+            IsOptional = YesOptionHelper.IsYesOptionChecked(inputComponent.IsOptional);
             Classes = string.Join(" ", inputComponent.ComponentClasses.Select(m => m.Name)); // take name because codename might ruin class name
             PageLevelProgress = new PageLevelProgressAdapt()
             {
-                IsEnabled = IsYesOptionChecked(inputComponent.IncludeInProgress)
+                IsEnabled = YesOptionHelper.IsYesOptionChecked(inputComponent.IncludeInProgress)
             };
         }
 
-        public bool IsYesOptionChecked(IEnumerable<MultipleChoiceOption> options)
-        {
-            return options?.FirstOrDefault()?.Codename.Equals(IsRequiredYesOption, StringComparison.OrdinalIgnoreCase) ?? false;
-        }
+
 
         public string GetLayout(IEnumerable<MultipleChoiceOption> options)
         {

@@ -20,7 +20,7 @@ namespace Adapt
                 BaseAdaptComponent component = null;
                 if (inputComponent is Text textComponent)
                 {
-                    component = new TextComponentAdapt(parent.Id, textComponent);
+                    component = new TextWithCodeComponentAdapt(parent.Id, textComponent);
                 }
                 else if (inputComponent is Graphic graphicsComponent)
                 {

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Linq;
 using CloudIntegration.Models;
 using KenticoCloud.Delivery.InlineContentItems;
 
@@ -12,7 +10,7 @@ namespace CloudIntegration.Resolvers
         public string Resolve(ResolvedContentItemData<CodeBlock> data)
         {
             return
-                $"Should there be some specific HTML Aaron? Original code value: {data.Item.Code}";
+                $"<pre><code class=language-{data.Item.AvailableLanguagesLanguage?.FirstOrDefault()?.Codename.ToLower()}>{data.Item.Code}</code></pre>";
         }
     }
 }

@@ -51,7 +51,7 @@ namespace Adapt.Model.Components
             Items = inputComponent.Answers?.Select(m => new CodeQuestionItem()
             {
                 Title = m.Title,
-                Code = new CmcqComponentAdaptCode()
+                Code = new ComponentAdaptCode()
                 {
                     Code = m.Code,
                     Lang = m.AvailableLanguagesLanguage.FirstOrDefault()?.Codename?.ToLower()

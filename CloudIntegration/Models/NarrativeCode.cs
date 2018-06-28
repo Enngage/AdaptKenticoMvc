@@ -13,7 +13,7 @@ namespace CloudIntegration.Models
         public const string RequireAllCodeBeSeeCodename = "require_all_code_be_see_";
         public const string IntroCodename = "intro";
 
-        public IEnumerable<object> NarrativeCodeItems { get; set; }
+        public IEnumerable<NarrativeCodeItem> NarrativeCodeItems { get; set; }
         public string SmallInstructions { get; set; }
         public IEnumerable<MultipleChoiceOption> RequireAllCodeBeSee { get; set; }
         public string Intro { get; set; }

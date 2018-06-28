@@ -35,7 +35,7 @@ namespace Adapt.Model
         public string Title { get; set; }
 
         [JsonProperty("code")]
-        public CmcqComponentAdaptCode Code { get; set; }
+        public ComponentAdaptCode Code { get; set; }
 
         [JsonProperty("feedback")]
         public string Feedback { get; set; }
@@ -43,7 +43,7 @@ namespace Adapt.Model
         [JsonProperty("_shouldBeSelected")] public bool ShouldBeSelected { get; set; } = false;
     }
 
-    public class CmcqComponentAdaptCode
+    public class ComponentAdaptCode
     {
         [JsonProperty("src")]
         public string Code { get; set; }

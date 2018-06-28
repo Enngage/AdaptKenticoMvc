@@ -42,9 +42,13 @@ namespace Adapt
                 {
                     component = new NarrativeComponentAdapt(parent.Id, narrativeComponent);
                 }
-                else if (inputComponent is MultipleChoiceQuestionWithCode multipleChoiceWithCode)
+                else if (inputComponent is MultipleChoiceQuestionWithCode multipleChoiceWithCodeComponent)
                 {
-                    component = new CmcqComponentAdapt(parent.Id, multipleChoiceWithCode);
+                    component = new CmcqComponentAdapt(parent.Id, multipleChoiceWithCodeComponent);
+                }
+                else if (inputComponent is NarrativeCode narrativeCodeComponent)
+                {
+                    component = new NarrativeWithCodeComponentAdapt(parent.Id, narrativeCodeComponent);
                 }
                 else
                 {

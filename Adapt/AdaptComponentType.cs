@@ -10,6 +10,7 @@
         public static readonly AdaptComponentType Media = new AdaptComponentType("media");
         public static readonly AdaptComponentType Mcq = new AdaptComponentType("mcq");
         public static readonly AdaptComponentType Narrative = new AdaptComponentType("narrative");
+        public static readonly AdaptComponentType NarrativeWithCode = new AdaptComponentType("narrativeCode");
         public static readonly AdaptComponentType TextWithCode = new AdaptComponentType("textWithCode");
         public static readonly AdaptComponentType Cmcq = new AdaptComponentType("cmcq");
 

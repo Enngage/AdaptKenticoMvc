@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace Adapt.Model.Components
 {
-    public class McqComponentAdapt : BaseAdaptComponent
+    public class CmcqComponentAdapt : BaseAdaptComponent
     {
 
         [JsonProperty("body")]
@@ -38,23 +38,29 @@ namespace Adapt.Model.Components
         public bool AllowsPunctuation = true;
 
         [JsonProperty("_items")]
-        public List<TextQuestionItem> Items { get; }
+        public List<CodeQuestionItem> Items { get; }
 
         [JsonProperty("_feedback")]
         public QuestionFeedback QuestionFeedback { get; }
 
-        public override AdaptComponentType Component => AdaptComponentType.Mcq;
+        public override AdaptComponentType Component => AdaptComponentType.Cmcq;
 
-        public McqComponentAdapt(string parentId, MultipleChoiceQuestionTextOnly inputComponent) : base(parentId, inputComponent)
+        public CmcqComponentAdapt(string parentId, MultipleChoiceQuestionWithCode inputComponent) : base(parentId, inputComponent)
         {
             Body = inputComponent.QuestionText;
-            Items = inputComponent.Answers?.Select(m => new TextQuestionItem()
+            Items = inputComponent.Answers?.Select(m => new CodeQuestionItem()
             {
-                Text = m.Answer,
-                ShouldBeSelected = YesOptionHelper.IsYesOptionChecked(m.IsThisACorrectAnswer)
+                Title = m.Title,
+                Code = new CmcqComponentAdaptCode()
+                {
+                    Code = m.Code,
+                    Lang = m.AvailableLanguagesLanguage.FirstOrDefault()?.Codename?.ToLower()
+                },
+                Feedback = m.IncorrectFeedback,
+                ShouldBeSelected = YesOptionHelper.IsYesOptionChecked(m.IsThisAnswerCorrect)
             }).ToList();
             Selectable =
-                inputComponent.Answers?.Count(m => YesOptionHelper.IsYesOptionChecked(m.IsThisACorrectAnswer)) ?? 0;
+                inputComponent.Answers?.Count(m => YesOptionHelper.IsYesOptionChecked(m.IsThisAnswerCorrect)) ?? 0;
             QuestionFeedback = new QuestionFeedback()
             {
                 Correct = inputComponent.FeedbackIfCorrect,
@@ -70,4 +76,5 @@ namespace Adapt.Model.Components
         }
      
     }
+
 }

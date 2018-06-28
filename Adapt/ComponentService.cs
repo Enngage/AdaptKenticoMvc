@@ -42,6 +42,10 @@ namespace Adapt
                 {
                     component = new NarrativeComponentAdapt(parent.Id, narrativeComponent);
                 }
+                else if (inputComponent is MultipleChoiceQuestionWithCode multipleChoiceWithCode)
+                {
+                    component = new CmcqComponentAdapt(parent.Id, multipleChoiceWithCode);
+                }
                 else
                 {
                     if (throwExceptionForUnsupportedTypes)

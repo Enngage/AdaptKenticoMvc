@@ -11,6 +11,7 @@
         public static readonly AdaptComponentType Mcq = new AdaptComponentType("mcq");
         public static readonly AdaptComponentType Narrative = new AdaptComponentType("narrative");
         public static readonly AdaptComponentType TextWithCode = new AdaptComponentType("textWithCode");
+        public static readonly AdaptComponentType Cmcq = new AdaptComponentType("cmcq");
 
         private AdaptComponentType(string type)
         {

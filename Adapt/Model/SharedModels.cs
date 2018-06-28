@@ -29,6 +29,28 @@ namespace Adapt.Model
         [JsonProperty("_isCorrect")] public bool IsCorrect { get; set; } = false;
     }
 
+    public class CodeQuestionItem
+    {
+        [JsonProperty("title")]
+        public string Title { get; set; }
+
+        [JsonProperty("code")]
+        public CmcqComponentAdaptCode Code { get; set; }
+
+        [JsonProperty("feedback")]
+        public string Feedback { get; set; }
+
+        [JsonProperty("_shouldBeSelected")] public bool ShouldBeSelected { get; set; } = false;
+    }
+
+    public class CmcqComponentAdaptCode
+    {
+        [JsonProperty("src")]
+        public string Code { get; set; }
+
+        [JsonProperty("lang")]
+        public string Lang { get; set; }
+    }
 
     public class TextQuestionItem
     {
@@ -38,22 +60,22 @@ namespace Adapt.Model
         [JsonProperty("_shouldBeSelected")] public bool ShouldBeSelected { get; set; } = false;
     }
 
-    public class Feedback
+    public class QuestionFeedback
     {
         [JsonProperty("title")]
-        public string Title { get; set; } = "Feedback";
+        public string Title { get; set; } = "QuestionFeedback";
 
         [JsonProperty("correct")]
         public string Correct { get; set; }
 
         [JsonProperty("_partlyCorrect")]
-        public TextQuestionFeedbackCorrectFinal PartlyCorrect { get; set; }
+        public QuestionFeedbackCorrectFinal PartlyCorrect { get; set; }
 
         [JsonProperty("_incorrect")]
-        public TextQuestionFeedbackCorrectFinal Incorrect { get; set; }
+        public QuestionFeedbackCorrectFinal Incorrect { get; set; }
     }
 
-    public class TextQuestionFeedbackCorrectFinal
+    public class QuestionFeedbackCorrectFinal
     {
         [JsonProperty("final")]
         public string Final { get; set; }

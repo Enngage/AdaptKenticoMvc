@@ -1,0 +1,3 @@
+This application generates JSON in a format readable by [Kentico Adapt]() based on data pulled from Kentico Cloud.
+
+If for some reason the webhooks are not regenerating the content automatically, you can regenerate the JSON manually. Visit http://richardsadaptmvc.azurewebsites.net and select what you want to be generated or use the api with `debug=true` (e.g., http://richardsadaptmvc.azurewebsites.net/api/generate/index?projectId=63117da1-007f-01dd-86eb-23e8353ac375&version=v9&debug=true)

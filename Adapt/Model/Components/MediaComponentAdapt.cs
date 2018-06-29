@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using CloudIntegration.Models;
 using Newtonsoft.Json;
 
@@ -20,6 +21,9 @@ namespace Adapt.Model.Components
 
         [JsonProperty("_media")]
         public MediaComponentMedia Media { get;}
+
+        [JsonProperty("_playerOptions")]
+        public MediaComponentAdaptPlayerOptions PlayerOptions => new MediaComponentAdaptPlayerOptions();
 
         public override AdaptComponentType Component => AdaptComponentType.Media;
 
@@ -53,6 +57,21 @@ namespace Adapt.Model.Components
 
             [JsonProperty("src")]
             public string Src { get; set; }
+        }
+
+        public class MediaComponentAdaptPlayerOptions
+        {
+            [JsonProperty("features")]
+            public List<string> Features => new List<string>()
+            {
+                "playpause",
+                "progress",
+                "current",
+                "duration",
+                "speed",
+                "volume",
+                "fullscreen"
+            };
         }
     }
 

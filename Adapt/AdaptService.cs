@@ -25,7 +25,7 @@ namespace Adapt
         /// Adapt will fail with NO ERROR if there is a parent with no child items (i.e. article without blocks, block without components...)
         /// Make sure that such parents are not added to final result
         /// </summary>
-        public AdaptCourseData GenerateCourseData(List<Page> inputPages)
+        public AdaptCourseData GenerateCourseData(List<Page> inputPages, Package package)
         {
             var pages = new List<PageAdapt>();
             var articles = new List<ArticleAdapt>();
@@ -67,9 +67,23 @@ namespace Adapt
                 }
             }
 
-            return new AdaptCourseData(pages, articles, blocks, components);
+            return new AdaptCourseData(pages, articles, blocks, components, GetCourseConfig(package));
         }
 
+        public AdaptCourseConfig GetCourseConfig(Package package)
+        {
+            return new AdaptCourseConfig()
+            {
+                Title = package.CourseName,
+                DisplayTitle = package.DisplayTitle,
+                Body = package.Body,
+                Description = package.Description,
+                Assessment = new AdaptCourseConfigAssessment()
+                {
+                    ScoreToPass = package.ScoreToPass
+                }
+            };
+        }
 
         public List<ArticleAdapt> GetArticles(PageAdapt parent, List<Section> inputArticles)
         {

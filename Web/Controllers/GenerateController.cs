@@ -109,10 +109,10 @@ namespace Web.Controllers
                 throw new ArgumentNullException(nameof(projectId));
             }
 
-            var course = await CourseService.GetCourseMetadataAsync(projectId);
+            var course = await CourseService.GetCoursePackageAsync(projectId);
             var pages = await CourseService.GetPagesAsync(projectId, courseVersion);
 
-            var courseData = AdaptService.GenerateCourseData(pages);
+            var courseData = AdaptService.GenerateCourseData(pages, course);
 
             // (re)generate course json files
             FileService.CreateCourseJsonFiles(course.CourseName, course.CourseLanguageCodename, courseData, courseVersion);

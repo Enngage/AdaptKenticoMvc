@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Adapt.Model;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Web.Extensions;
 using Web.Models;
 
@@ -24,10 +25,31 @@ namespace Web.Services
             // make sure directory for course exists
             Directory.CreateDirectory(courseDir);
 
+            // course data
             CreateJsonFile(courseDir, Config.ContentObjectsFilename, JsonConvert.SerializeObject(courseData.Pages));
             CreateJsonFile(courseDir, Config.ArticlesFilename, JsonConvert.SerializeObject(courseData.Articles));
             CreateJsonFile(courseDir, Config.BlocksFilename, JsonConvert.SerializeObject(courseData.Blocks));
             CreateJsonFile(courseDir, Config.ComponentsFilename, JsonConvert.SerializeObject(courseData.Components));
+
+            // course config
+            CreateJsonFile(courseDir, Config.CourseFilename, CombineDefaultAndCustomCourseConfig(courseData.Course));
+        }
+
+        public string CombineDefaultAndCustomCourseConfig(AdaptCourseConfig courseConfig)
+        {
+            // load default data
+            var defaultDataFilepath = GetDefaultDataFolder() + "\\" + Config.DefaultCourseJsonDataFilename;
+            var defaultCourseData =  JObject.Parse(File.ReadAllText(defaultDataFilepath));
+            var customCourseData = JObject.FromObject(courseConfig);
+
+            // set custom properties
+            foreach (var property in customCourseData.Properties())
+            {
+                // overwrite default value
+                defaultCourseData[property.Name] = property.Value;
+            }
+
+            return defaultCourseData.ToString();
         }
 
         public void CreateJsonFile(string folder, string filename, string content)
@@ -48,5 +70,11 @@ namespace Web.Services
         {
             return $"{Config.RootFolder}\\{Config.CoursesFolderName}\\{projectName.ToCodename()}\\{language}\\{(string.IsNullOrEmpty(courseVersion) ? Config.DefaultAllCourseDataFolder : courseVersion)}";
         }
+
+        public string GetDefaultDataFolder()
+        {
+            return $"{Config.RootFolder}\\{Config.DefaultDataFolderName}";
+        }
+   
     }
 }

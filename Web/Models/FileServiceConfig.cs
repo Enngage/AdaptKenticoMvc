@@ -10,6 +10,8 @@ namespace Web.Models
         public string BlocksFilename { get; set; }
         public string ComponentsFilename { get; set; }
         public string DefaultAllCourseDataFolder { get; set; }
-
+        public string CourseFilename { get; set; }
+        public string DefaultDataFolderName { get; set; }
+        public string DefaultCourseJsonDataFilename { get; set; }
     }
 }

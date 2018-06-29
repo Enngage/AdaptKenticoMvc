@@ -49,7 +49,10 @@ namespace Web
                     ComponentsFilename = config.Files.ComponentsFilename,
                     ArticlesFilename = config.Files.ArticlesFilename,
                     ContentObjectsFilename = config.Files.ContentObjectsFilename,
-                    CoursesFolderName = config.Files.CoursesFolderName
+                    CoursesFolderName = config.Files.CoursesFolderName,
+                    CourseFilename = config.Files.CourseFilename,
+                    DefaultCourseJsonDataFilename = config.Files.DefaultCourseJsonDataFilename,
+                    DefaultDataFolderName = config.Files.DefaultDataFolderName
                 })
              );
         }

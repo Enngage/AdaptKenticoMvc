@@ -95,7 +95,7 @@ namespace CloudIntegration
         /// <summary>
         /// Gets course metadata (i.e. language, course name..)
         /// </summary>
-        public async Task<Package> GetCourseMetadataAsync(string projectId)
+        public async Task<Package> GetCoursePackageAsync(string projectId)
         {
             // there should be only single instance of course metadata per project. Thats why
             // we take only the first one.

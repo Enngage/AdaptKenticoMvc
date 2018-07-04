@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Adapt;
 using Adapt.Model;
 using CloudIntegration;
-using CloudIntegration.Models;
 using CloudIntegration.Models.Cloud;
 using Microsoft.AspNetCore.Mvc;
 using Web.Models;
@@ -31,7 +29,7 @@ namespace Web.Controllers
         [Route("List")]
         public async Task<IActionResult> ListAsync()
         {
-            var courses = await CourseService.GetSupportedCoursesAsync();
+            var courses = await CourseService.GetAllPackagesAsync();
 
             return new ObjectResult(courses);
         }
@@ -39,36 +37,18 @@ namespace Web.Controllers
         [HttpGet]
         [Route("index")]
         [Route("")]
-        public async Task<IActionResult> IndexAsync([FromQuery] string projectId, string version, bool debug)
+        public async Task<IActionResult> IndexAsync([FromQuery] string projectId, string courseId, bool debug)
         {
             var generatedDataMessage = new List<string>();
             var debugContent = new List<AdaptCourseData>();
 
-            if (string.IsNullOrEmpty(version))
-            {
-                // generate data for all versions
-                var courseVersions = await CourseService.GetCourseVersionsAsync(projectId);
-                foreach (var courseVersion in courseVersions)
-                {
-                    var result = await GenerateCourseDataAsync(projectId, courseVersion);
-                    generatedDataMessage.Add($"Data for course '{result.Course.CourseName}' and version'{courseVersion}' have been generated.");
+            // generate data for course
+            var result = await GeneratePackageDataAsync(projectId, courseId);
+            generatedDataMessage.Add($"Data for course '{result.Course.CourseName}' and version'{result.Course.ActiveCourseVersion}' have been generated.");
 
-                    if (debug)
-                    {
-                        debugContent.Add(result.CourseData);
-                    }
-                }
-            }
-            else
+            if (debug)
             {
-                // generate for specified version
-                var result = await GenerateCourseDataAsync(projectId, version);
-                generatedDataMessage.Add($"Data for course '{result.Course.CourseName}' and version'{version}' have been generated.");
-
-                if (debug)
-                {
-                    debugContent.Add(result.CourseData);
-                }
+                debugContent.Add(result.CourseData);
             }
 
             return new ObjectResult(new
@@ -89,34 +69,48 @@ namespace Web.Controllers
 
             var generatedDataMessage = new List<string>();
 
-            // Generate course data for all versions of the course.
+            // Generate course data for all courses and versions.
             // Ideally, we would want to regenerate only the item that changes (+ possibly children), but that
-            // is not worth the effort right now.
-            var courseVersions = await CourseService.GetCourseVersionsAsync(model.Message.ProjectId);
-            foreach (var courseVersion in courseVersions)
+            // is not worth the effort right now + there is very limited possibility of identifying in which items certain item is included as modular content.
+            // Or there could be more personalized webhooks coming in..
+            var projectCourses = await CourseService.GetAllCoursesWithinProjectAsync(model.Message.ProjectId);
+
+            // go through all courses within a project :-(
+            foreach (var projectCourse in projectCourses)
             {
-                var result = await GenerateCourseDataAsync(model.Message.ProjectId, courseVersion);
-                generatedDataMessage.Add($"Data for course '{result.Course.CourseName}' and version'{courseVersion}' have been generated.");
+                var result = await GeneratePackageDataAsync(model.Message.ProjectId, projectCourse.CourseName);
+                generatedDataMessage.Add($"Data for course '{result.Course.CourseName}' and version '{projectCourse.ActiveCourseVersion}' have been generated.");
             }
 
             return new ObjectResult(generatedDataMessage);
         }
 
-
-        private async Task<GenerateResultModel> GenerateCourseDataAsync(string projectId, string courseVersion = null)
+        private async Task<GenerateResultModel> GeneratePackageDataAsync(string projectId, string courseId)
         {
             if (string.IsNullOrEmpty(projectId))
             {
-                throw new ArgumentNullException(nameof(projectId));
+                throw new NotSupportedException($"Please specify '{nameof(projectId)}' parameter");
             }
 
-            var course = await CourseService.GetCoursePackageAsync(projectId);
-            var pages = await CourseService.GetPagesAsync(projectId, courseVersion);
+            if (string.IsNullOrEmpty(courseId))
+            {
+                throw new NotSupportedException($"Please specify '{nameof(courseId)}' parameter");
+            }
+
+            var package = await CourseService.GetPackageAsync(projectId, courseId);
+
+            if (package == null)
+            {
+                throw new NullReferenceException($"Course with name '{courseId}' was not found in project '{projectId}'");
+            }
+
+            var course = await CourseService.GetPackageAsync(projectId, courseId);
+            var pages = await CourseService.GetPagesAsync(projectId, courseId);
 
             var courseData = AdaptService.GenerateCourseData(pages, course);
 
             // (re)generate course json files
-            FileService.CreateCourseJsonFiles(course.CourseName, course.CourseLanguageCodename, courseData, courseVersion);
+            FileService.CreateCourseJsonFiles(course.CourseId, course.CourseLanguageCodename, courseData);
 
             return new GenerateResultModel()
             {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CloudIntegration.Models;
@@ -10,32 +11,50 @@ namespace CloudIntegration
 {
     public class CourseService : ICourseService
     {
-        private string MasterProjectId { get; }
+        private List<string> AllProjectIds { get; }
 
-        public CourseService(string masterProjectId)
+        public CourseService(List<string> allProjectIds)
         {
-            MasterProjectId = masterProjectId;
+            AllProjectIds = allProjectIds;
         }
 
         /// <summary>
-        /// List of 'supported' courses. This is coming from a different Kentico Cloud project which lists all courses for an overview
+        /// List of 'supported' courses
         /// </summary>
-        /// <returns></returns>
-        public async Task<List<SupportedCourse>> GetSupportedCoursesAsync()
+        public async Task<List<PackageDto>> GetAllPackagesAsync()
         {
-            var deliveryClient = GetDeliveryClient(MasterProjectId);
+            var packages = new List<PackageDto>();
 
-            var courses = (await deliveryClient.GetItemsAsync<Course>(new EqualsFilter("system.type", Course.Codename)))
-                .Items;
+            foreach (var projectId in AllProjectIds)
+            {
+                var deliveryClient = GetDeliveryClient(projectId);
 
-            var result = (await Task.WhenAll(courses.Select(async m => new SupportedCourse()
+                packages.AddRange((await deliveryClient.GetItemsAsync<Package>()).Items.Select(m => new PackageDto()
                 {
-                    Course = m,
-                    Versions = await GetCourseVersionsAsync(m.Projectid)
-                }))
-            ).ToList();
+                    Package = m,
+                    ProjectId = projectId
+                }));
+            }
 
-            return result;
+            return packages;
+        }
+
+        public async Task<Package> GetPackageAsync(string projectId, string courseId)
+        {
+            return (
+                    await GetDeliveryClient(projectId).GetItemsAsync<Package>(
+                        new LimitParameter(1),
+                        new EqualsFilter($"elements.{Package.CourseIdCodename}", courseId)
+                    )
+                ).Items
+                .First();
+        }
+
+        public async Task<List<string>> GetPackageVersionsAsync(string projectId)
+        {
+            return (await GetDeliveryClient(projectId)
+                    .GetContentElementAsync(Package.Codename, Package.CourseVersionCodename))
+                .Options.Select(m => m.Codename).ToList();
         }
 
         /// <summary>
@@ -48,10 +67,15 @@ namespace CloudIntegration
             {
                 page.Sections = page.Sections.Where(section =>
                 {
-                    section.Blocks = section.Blocks.Where(block => block.ContainsVersion(courseVersion)).ToList();
-                    return section.ContainsVersion(courseVersion);
+                    section.Blocks = section.Blocks.Where(block =>
+                    {
+                        block.Components = block.Components
+                            .Where(component => ContainsVersion(component, courseVersion)).ToList();
+                        return true;
+                    }).ToList();
+                    return true;
                 });
-                return page.ContainsVersion(courseVersion);
+                return true;
             }).ToList();
         }
 
@@ -59,51 +83,60 @@ namespace CloudIntegration
         /// Gets pages and nested course data structure from Kentico Cloud
         /// </summary>
         /// <param name="projectId">ProjectId of course project</param>
-        /// <param name="courseVersion">Course version. If none is specified, all versions are loaded</param>
+        /// <param name="courseId">Course name as defined in KC</param>
         /// <returns></returns>
-        public async Task<List<Page>> GetPagesAsync(string projectId, string courseVersion = null)
+        public async Task<List<Page>> GetPagesAsync(string projectId, string courseId)
         {
             var deliveryClient = GetDeliveryClient(projectId, true);
 
             var queryParams = new List<IQueryParameter>()
             {
-                new EqualsFilter("system.type", Page.Codename),
+                new EqualsFilter("system.type", Package.Codename),
+                new EqualsFilter($"elements.{Package.CourseIdCodename}", courseId),
                 new DepthParameter(5)
             };
 
-            if (!string.IsNullOrEmpty(courseVersion))
+            var response = await deliveryClient.GetItemsAsync<Package>(queryParams);
+
+            if (!response.Items.Any())
             {
-                queryParams.Add(new AnyFilter($"elements.{CourseVersion.CourseVersionVersionCodename}",
-                    courseVersion));
+                throw new NotSupportedException($"'{Package.Codename}' content type does not exist in project '{projectId}'. These should be exactly 1 item.");
             }
 
-            var response = await deliveryClient.GetItemsAsync<Page>(queryParams);
+            if (response.Items.Count > 1)
+            {
+                throw new NotSupportedException($"'{Package.Codename}' content type '{projectId}' needs to have exactly 1 item. It currently has '{response.Items.Count}'");
+            }
 
-            var pagesForGivenVersion = FilterPagesToIncludeOnlyItemsWithVersion(response.Items.ToList(), courseVersion);
+            var package = response.Items.First();
+
+            if (!package.CourseVersion.Any())
+            {
+                throw new NotSupportedException($"Course version is not set for course with id '{package.CourseId}' within project '{projectId}'");
+            }
+
+            if (package.CourseVersion.Count() > 1)
+            {
+                throw new NotSupportedException($"Course with id '{package.CourseId}' may contain only 1 version of the course. It currently contains '{package.CourseVersion.Count()}'");
+            }
+
+            var courseVersion = package.CourseVersion.First().Codename;
+
+            var pagesForGivenVersion = FilterPagesToIncludeOnlyItemsWithVersion(package.Pages.ToList(), courseVersion);
 
             return pagesForGivenVersion;
         }
 
-        public async Task<List<string>> GetCourseVersionsAsync(string projectId)
-        {
-            // Note: Ideally we would want to get content out of 'Content snippet', but that is not supported at this moment
-            // Thats why query for 'Page' item which uses content snippet with version identifier
-            return (await GetDeliveryClient(projectId)
-                 .GetContentElementAsync(Page.Codename, CourseVersion.CourseVersionVersionCodename))
-                .Options.Select(m => m.Codename).ToList();
-        }
-
         /// <summary>
-        /// Gets course metadata (i.e. language, course name..)
+        /// Gets all courses within a project
         /// </summary>
-        public async Task<Package> GetCoursePackageAsync(string projectId)
+        /// <param name="projectId"></param>
+        /// <returns></returns>
+        public async Task<List<Package>> GetAllCoursesWithinProjectAsync(string projectId)
         {
-            // there should be only single instance of course metadata per project. Thats why
-            // we take only the first one.
             return (
-                 await GetDeliveryClient(projectId).GetItemsAsync<Package>(new LimitParameter(1))
-                ).Items
-                .First();
+                await GetDeliveryClient(projectId).GetItemsAsync<Package>()
+            ).Items.ToList();
         }
 
         /// <summary>
@@ -124,5 +157,23 @@ namespace CloudIntegration
 
             return client;
         }
+
+        private bool ContainsVersion(object component, string version)
+        {
+            // we have to get version with reflection as DeliveryClient can't be used with interface/base/partial class
+            var versionProperty = component.GetType().GetProperty(nameof(BaseComponent.CourseVersion));
+
+            var versionValue = (IEnumerable<MultipleChoiceOption>) versionProperty.GetValue(component);
+
+            return versionValue?.FirstOrDefault(m =>
+                       m.Codename.Equals(version, StringComparison.OrdinalIgnoreCase)) != null;
+        }
+
+        private bool ContainsVersion(IEnumerable<MultipleChoiceOption> versions, string version)
+        {
+            return versions?.FirstOrDefault(m =>
+                       m.Codename.Equals(version, StringComparison.OrdinalIgnoreCase)) != null;
+        }
+
     }
 }

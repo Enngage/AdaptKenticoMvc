@@ -18,9 +18,9 @@ namespace Web.Services
             Config = config;
         }
 
-        public void CreateCourseJsonFiles(string projectName, string language, AdaptCourseData courseData, string courseVersion)
+        public void CreateCourseJsonFiles(string courseId, string language, AdaptCourseData courseData)
         {
-            var courseDir = GetCourseFolder(projectName, language, courseVersion);
+            var courseDir = GetCourseFolder(courseId, language);
 
             // make sure directory for course exists
             Directory.CreateDirectory(courseDir);
@@ -66,9 +66,9 @@ namespace Web.Services
             }
         }
 
-        public string GetCourseFolder(string projectName, string language, string courseVersion = null)
+        public string GetCourseFolder(string courseId, string language)
         {
-            return $"{Config.RootFolder}\\{Config.CoursesFolderName}\\{projectName.ToCodename()}\\{language}\\{(string.IsNullOrEmpty(courseVersion) ? Config.DefaultAllCourseDataFolder : courseVersion)}";
+            return $"{Config.RootFolder}\\{Config.CoursesFolderName}\\{courseId.ToCodename()}\\{language}";
         }
 
         public string GetDefaultDataFolder()

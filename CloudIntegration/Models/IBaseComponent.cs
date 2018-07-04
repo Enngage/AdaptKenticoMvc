@@ -13,5 +13,6 @@ namespace CloudIntegration.Models
         string Title { get; set; }
         string Instructions { get; set; }
         IEnumerable<MultipleChoiceOption> IncludeInProgress { get; set; }
+        IEnumerable<MultipleChoiceOption> CourseVersion { get; set; }
     }
 }

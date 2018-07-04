@@ -103,7 +103,7 @@
   },
   "_id": "course",
   "_type": "course",
-  "title": "Dev03",
+  "title": "Dev03-K12",
   "displayTitle": "Dev03 display course title",
   "description": "This could be course description",
   "body": "And this course body (whatever that is)",

@@ -1,7 +1,7 @@
 ﻿@using AngleSharp.Network.Default
 @using CloudIntegration
 @using CloudIntegration.Models
-@model List<CloudIntegration.Models.SupportedCourse>
+@model List<CloudIntegration.Models.PackageDto>
 
 @{
     Layout = null;
@@ -19,25 +19,18 @@
         Supported courses
     </h1>
 
-    @foreach (var supportedCourse in Model)
+    @foreach (var packageDto in Model)
     {
         <div style="margin-top: 16px">
-            <h3>@supportedCourse.Course.CourseName</h3>
+            <h3>@packageDto.Package.CourseName</h3>
             <div>
                 <strong>Generate:</strong>
             </div>
             <div style="margin-top: 8px">
-                <a href="@Url.RouteUrl("api", new { controller="generate", action = "index", projectId = supportedCourse.Course.Projectid})" target="_blank">
-                    All
+                <a href="@Url.RouteUrl("api", new { controller="generate", action = "index", courseId = packageDto.Package.CourseId, projectId = packageDto.ProjectId})" target="_blank">
+                    Rebuild
                 </a>
             </div>
-
-            @foreach (var version in supportedCourse.Versions)
-            {
-                <div style="margin-top: 8px">
-                    <a href="@Url.RouteUrl("api", new { controller="generate", action = "index", projectId = supportedCourse.Course.Projectid, version = version})" target="_blank">@version</a>
-                </div>
-            }
         </div>
     }
 

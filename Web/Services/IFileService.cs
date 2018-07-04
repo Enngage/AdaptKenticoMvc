@@ -4,10 +4,10 @@ namespace Web.Services
 {
     public interface IFileService
     {
-        void CreateCourseJsonFiles(string projectName, string language, AdaptCourseData courseData, string courseVersion = null);
+        void CreateCourseJsonFiles(string courseId, string language, AdaptCourseData courseData);
         void CreateJsonFile(string folder, string filename, string content);
         string GetDefaultDataFolder();
-        string GetCourseFolder(string projectId, string language, string courseVersion = null);
+        string GetCourseFolder(string courseId, string language);
         string CombineDefaultAndCustomCourseConfig(AdaptCourseConfig courseConfig);
     }
 }

@@ -7,10 +7,11 @@ namespace CloudIntegration
 {
     public interface ICourseService
     {
-        Task<List<SupportedCourse>> GetSupportedCoursesAsync();
-        Task<List<Page>> GetPagesAsync(string projectId, string courseVersion = null);
-        Task<Package> GetCoursePackageAsync(string projectId);
-        Task<List<string>> GetCourseVersionsAsync(string projectId);
+        Task<List<PackageDto>> GetAllPackagesAsync();
+        Task<List<Page>> GetPagesAsync(string projectId, string courseId);
+        Task<List<Package>> GetAllCoursesWithinProjectAsync(string projectId);
+        Task<Package> GetPackageAsync(string projectId, string courseId);
+        Task<List<string>> GetPackageVersionsAsync(string projectId);
         List<Page> FilterPagesToIncludeOnlyItemsWithVersion(List<Page> pages, string courseVersion);
 
     }

@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace CloudIntegration.Models
 {
-    public abstract class BaseComponent : IBaseComponent
+    public partial class BaseComponent : IBaseComponent
     {
         public const string BasecomponentDisplayTitleCodename = "basecomponent__display_title";
         public const string BasecomponentIsOptionalCodename = "basecomponent__is_optional_";
@@ -13,6 +13,7 @@ namespace CloudIntegration.Models
         public const string BasecomponentComponentClassesCodename = "basecomponent__component_classes";
         public const string BasecomponentTitleCodename = "basecomponent__title";
         public const string BasecomponentInstructionsCodename = "basecomponent__instructions";
+        public const string BasecomponentCourseVersionCodename = "basecomponent__course_version";
 
         public ContentItemSystemAttributes System { get; set; }
 
@@ -33,6 +34,9 @@ namespace CloudIntegration.Models
 
         [JsonProperty(BasecomponentInstructionsCodename)]
         public string Instructions { get; set; }
+
+        [JsonProperty(BasecomponentCourseVersionCodename)]
+        public IEnumerable<MultipleChoiceOption> CourseVersion { get; set; }
 
         [JsonProperty(BasecomponentIncludeInProgressCodename)]
         public IEnumerable<MultipleChoiceOption> IncludeInProgress { get; set; }

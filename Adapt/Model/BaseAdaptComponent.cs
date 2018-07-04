@@ -40,7 +40,7 @@ namespace Adapt.Model
         {
             Id = inputComponent.System.Id;
             ParentId = parentId;
-            DisplayTitle = inputComponent.DisplayTitle;
+            DisplayTitle = string.IsNullOrEmpty(inputComponent.DisplayTitle) ? inputComponent.Title : inputComponent.DisplayTitle; // user title if display title is not set
             Instructions = inputComponent.Instructions;
             Layout = GetLayout(inputComponent.Layout);
             Title = inputComponent.Title;

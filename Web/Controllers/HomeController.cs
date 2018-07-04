@@ -15,7 +15,7 @@ namespace Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var courses = await CourseService.GetSupportedCoursesAsync();
+            var courses = await CourseService.GetAllPackagesAsync();
 
             return View(courses);
         }

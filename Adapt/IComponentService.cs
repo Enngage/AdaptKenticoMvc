@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Adapt.Model;
-using CloudIntegration;
+using CloudIntegration.Models;
 
 namespace Adapt
 {

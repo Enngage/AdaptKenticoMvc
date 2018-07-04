@@ -1,7 +1,7 @@
 
 using System.Collections.Generic;
 
-namespace CloudIntegration.Models
+namespace CloudIntegration.Models.Cloud
 {
     public partial class Accordion :  BaseComponent
     {

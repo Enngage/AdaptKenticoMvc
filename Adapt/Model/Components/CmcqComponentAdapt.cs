@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Adapt.Helpers;
-using CloudIntegration.Models;
+using Adapt.Model.Types;
+using CloudIntegration.Models.Cloud;
 using Newtonsoft.Json;
 
 namespace Adapt.Model.Components

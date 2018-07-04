@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using CloudIntegration.Models;
+using CloudIntegration.Models.Cloud;
 using KenticoCloud.Delivery.InlineContentItems;
 
 namespace CloudIntegration.Resolvers

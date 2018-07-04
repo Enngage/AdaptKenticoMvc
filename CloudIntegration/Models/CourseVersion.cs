@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using KenticoCloud.Delivery;
 
-namespace CloudIntegration
+namespace CloudIntegration.Models
 {
     public abstract class CourseVersion : ICourseVersion
     {

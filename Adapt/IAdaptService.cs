@@ -2,6 +2,7 @@
 using Adapt.Model;
 using CloudIntegration;
 using CloudIntegration.Models;
+using CloudIntegration.Models.Cloud;
 
 namespace Adapt
 {

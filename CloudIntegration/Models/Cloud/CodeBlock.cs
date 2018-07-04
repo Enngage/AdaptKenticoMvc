@@ -1,9 +1,7 @@
-
-using System;
 using System.Collections.Generic;
 using KenticoCloud.Delivery;
 
-namespace CloudIntegration.Models
+namespace CloudIntegration.Models.Cloud
 {
     public partial class CodeBlock
     {

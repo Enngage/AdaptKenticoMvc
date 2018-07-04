@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Adapt.Model.Types;
+using Newtonsoft.Json;
 
 namespace Adapt.Model
 {

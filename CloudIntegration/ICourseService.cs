@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using CloudIntegration.Models;
+using CloudIntegration.Models.Cloud;
 
 namespace CloudIntegration
 {

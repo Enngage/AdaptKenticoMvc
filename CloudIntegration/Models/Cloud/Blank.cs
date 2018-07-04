@@ -1,6 +1,6 @@
 
 
-namespace CloudIntegration.Models
+namespace CloudIntegration.Models.Cloud
 {
     public partial class Blank : BaseComponent
     {

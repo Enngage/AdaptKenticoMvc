@@ -1,5 +1,5 @@
 ﻿
-namespace Adapt
+namespace Adapt.Model.Types
 {
     public class AdaptModelType
     {

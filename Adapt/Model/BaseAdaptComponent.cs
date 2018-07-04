@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Adapt.Helpers;
+using Adapt.Model.Types;
 using CloudIntegration;
+using CloudIntegration.Models;
 using KenticoCloud.Delivery;
 using Newtonsoft.Json;
 

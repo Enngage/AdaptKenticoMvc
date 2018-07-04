@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using CloudIntegration.Models;
+using CloudIntegration.Models.Cloud;
 
-namespace CloudIntegration
+namespace CloudIntegration.Models
 {
     public class SupportedCourse
     {

@@ -1,9 +1,8 @@
-
 using System.Collections.Generic;
 using System.Linq;
 using KenticoCloud.Delivery;
 
-namespace CloudIntegration.Models
+namespace CloudIntegration.Models.Cloud
 {
     public partial class Package
     {

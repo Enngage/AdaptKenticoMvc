@@ -6,6 +6,7 @@ using Adapt;
 using Adapt.Model;
 using CloudIntegration;
 using CloudIntegration.Models;
+using CloudIntegration.Models.Cloud;
 using Microsoft.AspNetCore.Mvc;
 using Web.Models;
 using Web.Services;

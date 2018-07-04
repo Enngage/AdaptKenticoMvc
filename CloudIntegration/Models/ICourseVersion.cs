@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using KenticoCloud.Delivery;
 
-namespace CloudIntegration
+namespace CloudIntegration.Models
 {
     public interface ICourseVersion
     {

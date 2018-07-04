@@ -3,8 +3,8 @@ using System;
 using System.Collections.Generic;
 using Adapt.Model;
 using Adapt.Model.Components;
-using CloudIntegration;
 using CloudIntegration.Models;
+using CloudIntegration.Models.Cloud;
 
 namespace Adapt
 {

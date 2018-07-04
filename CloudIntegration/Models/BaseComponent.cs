@@ -2,7 +2,7 @@
 using KenticoCloud.Delivery;
 using Newtonsoft.Json;
 
-namespace CloudIntegration
+namespace CloudIntegration.Models
 {
     public abstract class BaseComponent : IBaseComponent
     {

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using CloudIntegration.Models;
+using CloudIntegration.Models.Cloud;
 using CloudIntegration.Resolvers;
 using KenticoCloud.Delivery;
 

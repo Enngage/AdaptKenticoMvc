@@ -1,4 +1,6 @@
-﻿using CloudIntegration.Models;
+﻿using Adapt.Model.Types;
+using CloudIntegration.Models;
+using CloudIntegration.Models.Cloud;
 using Newtonsoft.Json;
 
 namespace Adapt.Model.Components

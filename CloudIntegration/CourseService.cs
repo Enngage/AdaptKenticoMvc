@@ -154,6 +154,7 @@ namespace CloudIntegration
             };
 
             client.InlineContentItemsProcessor.RegisterTypeResolver(new InlineCodeResolver());
+            client.InlineContentItemsProcessor.RegisterTypeResolver(new InfoBoxResolver());
 
             return client;
         }

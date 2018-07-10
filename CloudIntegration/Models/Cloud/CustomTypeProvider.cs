@@ -47,6 +47,8 @@ namespace CloudIntegration.Models.Cloud
                     return typeof(Text);
                 case "video":
                     return typeof(Video);
+                case "infobox":
+                    return typeof(InfoBox);
                 default:
                     return null;
             }

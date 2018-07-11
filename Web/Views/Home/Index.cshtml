@@ -29,6 +29,9 @@
             <div style="margin-top: 8px">
                 <a href="@Url.RouteUrl("api", new { controller="generate", action = "index", courseId = packageDto.Package.CourseId, projectId = packageDto.ProjectId})" target="_blank">
                     Rebuild
+                </a> | 
+                <a href="@Url.RouteUrl("api", new { controller="generate", action = "index", courseId = packageDto.Package.CourseId, projectId = packageDto.ProjectId, debug = true})" target="_blank">
+                    Rebuild with debug
                 </a>
             </div>
         </div>

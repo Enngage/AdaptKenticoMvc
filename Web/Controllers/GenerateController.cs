@@ -78,7 +78,7 @@ namespace Web.Controllers
             // go through all courses within a project :-(
             foreach (var projectCourse in projectCourses)
             {
-                var result = await GeneratePackageDataAsync(model.Message.ProjectId, projectCourse.CourseName);
+                var result = await GeneratePackageDataAsync(model.Message.ProjectId, projectCourse.CourseId);
                 generatedDataMessage.Add($"Data for course '{result.Course.CourseName}' and version '{projectCourse.ActiveCourseVersion}' have been generated.");
             }
 

@@ -61,7 +61,7 @@ namespace Adapt.Model
         public bool ShouldBeSelected { get; set; } = false;
 
         [JsonProperty("feedback")]
-        public string IncorrectFeedback { get; set; }
+        public string Feedback { get; set; }
     }
 
     public class QuestionFeedback

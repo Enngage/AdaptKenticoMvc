@@ -52,7 +52,8 @@ namespace Adapt.Model.Components
             Items = inputComponent.Answers?.Select(m => new TextQuestionItem()
             {
                 Text = m.Answer,
-                ShouldBeSelected = YesOptionHelper.IsYesOptionChecked(m.IsThisACorrectAnswer)
+                ShouldBeSelected = YesOptionHelper.IsYesOptionChecked(m.IsThisACorrectAnswer),
+                Feedback = m.IncorrectFeedback
             }).ToList();
             Selectable =
                 inputComponent.Answers?.Count(m => YesOptionHelper.IsYesOptionChecked(m.IsThisACorrectAnswer)) ?? 0;
@@ -66,7 +67,7 @@ namespace Adapt.Model.Components
                 PartlyCorrect = new QuestionFeedbackCorrectFinal()
                 {
                     Final = inputComponent.FeedbackIfPartlyCorrect
-                }
+                },
             };
         }
      

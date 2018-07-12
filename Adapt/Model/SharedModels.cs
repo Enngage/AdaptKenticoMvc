@@ -67,7 +67,7 @@ namespace Adapt.Model
     public class QuestionFeedback
     {
         [JsonProperty("title")]
-        public string Title { get; set; } = "QuestionFeedback";
+        public string Title { get; set; } 
 
         [JsonProperty("correct")]
         public string Correct { get; set; }

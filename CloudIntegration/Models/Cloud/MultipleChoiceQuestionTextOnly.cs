@@ -10,13 +10,14 @@ namespace CloudIntegration.Models.Cloud
         public const string AnswersCodename = "answers";
         public const string FeedbackIfIncorrectCodename = "feedback_if_incorrect";
         public const string FeedbackIfCorrectCodename = "feedback_if_correct";
+        public const string FeedbackTitleCodename = "feedback_title";
 
         public string FeedbackIfPartlyCorrect { get; set; }
         public string QuestionText { get; set; }
         public IEnumerable<AnswerTextOnly> Answers { get; set; }
         public string FeedbackIfIncorrect { get; set; }
         public string FeedbackIfCorrect { get; set; }
+        public string FeedbackTitle { get; set; }
 
-     
     }
 }

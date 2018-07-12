@@ -59,6 +59,7 @@ namespace Adapt.Model.Components
                 inputComponent.Answers?.Count(m => YesOptionHelper.IsYesOptionChecked(m.IsThisACorrectAnswer)) ?? 0;
             QuestionFeedback = new QuestionFeedback()
             {
+                Title = inputComponent.FeedbackTitle,
                 Correct = inputComponent.FeedbackIfCorrect,
                 Incorrect = new QuestionFeedbackCorrectFinal()
                 {

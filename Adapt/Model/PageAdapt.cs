@@ -29,6 +29,12 @@ namespace Adapt.Model
         [JsonProperty("_graphic")]
         public SimpleGraphic Graphic { get; set; }
 
+        [JsonProperty("_pageLevelProgress")]
+        public PageLevelProgressAdapt PageLevelProgress { get; set; } = new PageLevelProgressAdapt()
+        {
+            IsEnabled = true
+        };
+
         public override AdaptModelType Type { get; } = AdaptModelType.Page;
     }
 }

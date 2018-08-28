@@ -17,7 +17,7 @@ namespace CloudIntegration.Models.Cloud
 
 
         public string Instructions { get; set; }
-        public decimal? Duration { get; set; }
+        public string Duration { get; set; }
         public string LinkText { get; set; }
         public string Title { get; set; }
         public string DisplayTitle { get; set; }

@@ -21,7 +21,7 @@ namespace Adapt.Model
         public string Instructions { get; set; }
 
         [JsonProperty("duration")]
-        public decimal? Duration { get; set; }
+        public string Duration { get; set; }
 
         [JsonProperty("linkText")]
         public string LinkText { get; set; }

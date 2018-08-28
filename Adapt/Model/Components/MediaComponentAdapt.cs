@@ -24,6 +24,9 @@ namespace Adapt.Model.Components
         [JsonProperty("_media")]
         public MediaComponentMedia Media { get;}
 
+        [JsonProperty("_transcript")]
+        public MediaComnponentTranscript Transcript { get; set; }
+
         [JsonProperty("_playerOptions")]
         public MediaComponentAdaptPlayerOptions PlayerOptions => new MediaComponentAdaptPlayerOptions();
 
@@ -37,8 +40,32 @@ namespace Adapt.Model.Components
                Poster = video.LoadingImage?.FirstOrDefault()?.Url,
                Cc = new MediaComponentMediaCc()
                {
-               }
+               },         
            };
+
+            Transcript = new MediaComnponentTranscript()
+            {
+                InlineTranscriptBody = video.Transcript
+            };
+        }
+
+        public class MediaComnponentTranscript
+        {
+            [JsonProperty("_setCompletionOnView")] public bool SetCompletionOnView { get; set; } = true;
+
+            [JsonProperty("_inlineTranscript")] public bool InlineTranscript { get; set; } = true;
+
+            [JsonProperty("_externalTranscript")] public bool ExternalTranscript { get; set; } = false;
+
+            [JsonProperty("inlineTranscriptButton")]
+            public string InlineTranscriptButton { get; set; } = "Transcript";
+
+            [JsonProperty("InlineTranscriptCloseButton")]
+            public string InlineTranscriptCloseButton { get; set; } = "Close Transcript";
+
+            [JsonProperty("inlineTranscriptBody")]
+            public string InlineTranscriptBody { get; set; }
+          
         }
 
         public class MediaComponentMedia

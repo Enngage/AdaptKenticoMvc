@@ -26,10 +26,10 @@ namespace Web.Services
             Directory.CreateDirectory(courseDir);
 
             // course data
-            CreateJsonFile(courseDir, Config.ContentObjectsFilename, JsonConvert.SerializeObject(courseData.Pages));
-            CreateJsonFile(courseDir, Config.ArticlesFilename, JsonConvert.SerializeObject(courseData.Articles));
-            CreateJsonFile(courseDir, Config.BlocksFilename, JsonConvert.SerializeObject(courseData.Blocks));
-            CreateJsonFile(courseDir, Config.ComponentsFilename, JsonConvert.SerializeObject(courseData.Components));
+            CreateJsonFile(courseDir, Config.ContentObjectsFilename, FixEmptyRichTextFields(JsonConvert.SerializeObject(courseData.Pages)));
+            CreateJsonFile(courseDir, Config.ArticlesFilename, FixEmptyRichTextFields(JsonConvert.SerializeObject(courseData.Articles)));
+            CreateJsonFile(courseDir, Config.BlocksFilename, FixEmptyRichTextFields(JsonConvert.SerializeObject(courseData.Blocks)));
+            CreateJsonFile(courseDir, Config.ComponentsFilename, FixEmptyRichTextFields(JsonConvert.SerializeObject(courseData.Components)));
 
             // course config
             CreateJsonFile(courseDir, Config.CourseFilename, CombineDefaultAndCustomCourseConfig(courseData.Course));
@@ -50,6 +50,13 @@ namespace Web.Services
             }
 
             return defaultCourseData.ToString();
+        }
+
+        public string FixEmptyRichTextFields(string text)
+        {
+            var result = text.Replace("\"<p><br></p>\"", "\"\"");
+
+            return result;
         }
 
         public void CreateJsonFile(string folder, string filename, string content)

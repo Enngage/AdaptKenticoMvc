@@ -10,7 +10,7 @@ namespace CloudIntegration.Resolvers
         public string Resolve(ResolvedContentItemData<CodeBlock> data)
         {
             return
-                $"<pre><code class=\"language-{data.Item.AvailableLanguagesLanguage?.FirstOrDefault()?.Codename.ToLower().Trim()}\">{data.Item.Code}</code></pre>";
+                $"<pre><code class=\"language-{data.Item.AvailableLanguagesLanguage?.FirstOrDefault()?.Codename.ToLower().Trim()}\">{System.Web.HttpUtility.HtmlEncode(data.Item.Code)}</code></pre>";
         }
     }
 }

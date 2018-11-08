@@ -11,11 +11,11 @@ namespace CloudIntegration
 {
     public class CourseService : ICourseService
     {
-        private List<string> AllProjectIds { get; }
+        private CourseServiceConfig Config { get; }
 
-        public CourseService(List<string> allProjectIds)
+        public CourseService(CourseServiceConfig config)
         {
-            AllProjectIds = allProjectIds;
+            Config = config;
         }
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace CloudIntegration
         {
             var packages = new List<PackageDto>();
 
-            foreach (var projectId in AllProjectIds)
+            foreach (var projectId in Config.AllProjectIds)
             {
                 var deliveryClient = GetDeliveryClient(projectId);
 
@@ -93,7 +93,7 @@ namespace CloudIntegration
             {
                 new EqualsFilter("system.type", Package.Codename),
                 new EqualsFilter($"elements.{Package.CourseIdCodename}", courseId),
-                new DepthParameter(5)
+                new DepthParameter(Config.Depth)
             };
 
             var response = await deliveryClient.GetItemsAsync<Package>(queryParams);
@@ -167,12 +167,6 @@ namespace CloudIntegration
             var versionValue = (IEnumerable<MultipleChoiceOption>) versionProperty.GetValue(component);
 
             return versionValue?.FirstOrDefault(m =>
-                       m.Codename.Equals(version, StringComparison.OrdinalIgnoreCase)) != null;
-        }
-
-        private bool ContainsVersion(IEnumerable<MultipleChoiceOption> versions, string version)
-        {
-            return versions?.FirstOrDefault(m =>
                        m.Codename.Equals(version, StringComparison.OrdinalIgnoreCase)) != null;
         }
 

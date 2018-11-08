@@ -104,9 +104,9 @@
   "_id": "course",
   "_type": "course",
   "title": "Dev03-K12",
-  "displayTitle": "Dev03 display course title",
+  "displayTitle": "MVC Developer course",
   "description": "This could be course description",
-  "body": "And this course body (whatever that is)",
+  "body": "Welcome to the essential part of the MVC Developer course. This module teaches you the basics of Kentico MVC and the recommended practices for developing and optimizing Kentico websites built the MVC development model.",
   "_buttons": {
     "_submit": {
       "buttonText": "Submit",

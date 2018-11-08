@@ -39,7 +39,7 @@ namespace Web
 
             services.AddScoped<IComponentService, ComponentService>();
             services.AddScoped<ICourseService, CourseService>(
-                service => new CourseService(config.ProjectIds));
+                service => new CourseService(new CourseServiceConfig(config.Depth, config.ProjectIds)));
             services.AddScoped<IAdaptService, AdaptService>();
             services.AddScoped<IFileService, FileService>(
                 service => new FileService(new FileServiceConfig()

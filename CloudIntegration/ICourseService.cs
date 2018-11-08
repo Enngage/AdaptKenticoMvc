@@ -13,6 +13,5 @@ namespace CloudIntegration
         Task<Package> GetPackageAsync(string projectId, string courseId);
         Task<List<string>> GetPackageVersionsAsync(string projectId);
         List<Page> FilterPagesToIncludeOnlyItemsWithVersion(List<Page> pages, string courseVersion);
-
     }
 }

@@ -142,7 +142,7 @@
     "_isEnabled": false
   },
   "_assessment": {
-    "_scoreToPass": 60,
+    "_scoreToPass": 60.0,
     "_postTotalScoreToLms": true,
     "_isPercentageBased": true
   },

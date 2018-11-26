@@ -1,57 +1,44 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using KenticoCloud.Delivery;
 
 namespace CloudIntegration.Models.Cloud
 {
     public class CustomTypeProvider : ICodeFirstTypeProvider
     {
+        private static readonly Dictionary<Type, string> _codenames = new Dictionary<Type, string>
+        {
+            {typeof(Accordion), "accordion"},
+            {typeof(AccordionItem), "accordion_item"},
+            {typeof(AnswerCode), "answer__code_"},
+            {typeof(AnswerTextOnly), "answer__text_only_"},
+            {typeof(Blank), "blank"},
+            {typeof(Block), "block"},
+            {typeof(CodeBlock), "code_block"},
+            {typeof(Graphic), "graphic"},
+            {typeof(InfoBox), "infobox"},
+            {typeof(MultipleChoiceQuestionTextOnly), "multiple_choice_question__text_only_"},
+            {typeof(MultipleChoiceQuestionWithCode), "multiple_choice_question__with_code_"},
+            {typeof(Narrative), "narrative"},
+            {typeof(NarrativeCode), "narrative_code"},
+            {typeof(NarrativeCodeItem), "narrative_code_item"},
+            {typeof(NarrativeItem), "narrative_item"},
+            {typeof(Package), "package"},
+            {typeof(Page), "page"},
+            {typeof(Section), "section"},
+            {typeof(Text), "text"},
+            {typeof(Video), "video"}
+        };
+
         public Type GetType(string contentType)
         {
-            switch (contentType)
-            {
-                case "accordion":
-                    return typeof(Accordion);
-                case "accordion_item":
-                    return typeof(AccordionItem);
-                case "answer__code_":
-                    return typeof(AnswerCode);
-                case "answer__text_only_":
-                    return typeof(AnswerTextOnly);
-                case "blank":
-                    return typeof(Blank);
-                case "block":
-                    return typeof(Block);
-                case "code_block":
-                    return typeof(CodeBlock);
-                case "graphic":
-                    return typeof(Graphic);
-                case "multiple_choice_question__text_only_":
-                    return typeof(MultipleChoiceQuestionTextOnly);
-                case "multiple_choice_question__with_code_":
-                    return typeof(MultipleChoiceQuestionWithCode);
-                case "narrative":
-                    return typeof(Narrative);
-                case "narrative_code":
-                    return typeof(NarrativeCode);
-                case "narrative_code_item":
-                    return typeof(NarrativeCodeItem);
-                case "narrative_item":
-                    return typeof(NarrativeItem);
-                case "package":
-                    return typeof(Package);
-                case "page":
-                    return typeof(Page);
-                case "section":
-                    return typeof(Section);
-                case "text":
-                    return typeof(Text);
-                case "video":
-                    return typeof(Video);
-                case "infobox":
-                    return typeof(InfoBox);
-                default:
-                    return null;
-            }
+            return _codenames.Keys.FirstOrDefault(type => GetCodename(type).Equals(contentType));
+        }
+
+        public string GetCodename(Type contentType)
+        {
+            return _codenames.TryGetValue(contentType, out var codename) ? codename : null;
         }
     }
 }

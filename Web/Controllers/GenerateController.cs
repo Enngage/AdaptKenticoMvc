@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Adapt;
 using Adapt.Model;
@@ -44,7 +45,7 @@ namespace Web.Controllers
 
             // generate data for course
             var result = await GeneratePackageDataAsync(projectId, courseId);
-            generatedDataMessage.Add($"Data for course '{result.Course.CourseName}' and version'{result.Course.ActiveCourseVersion}' have been generated.");
+            generatedDataMessage.Add($"Data for course '{result.Course.CourseName}' and version'{result.Course.CourseVersionVersion?.FirstOrDefault()?.Codename}' have been generated.");
 
             if (debug)
             {
@@ -79,7 +80,7 @@ namespace Web.Controllers
             foreach (var projectCourse in projectCourses)
             {
                 var result = await GeneratePackageDataAsync(model.Message.ProjectId, projectCourse.CourseId);
-                generatedDataMessage.Add($"Data for course '{result.Course.CourseName}' and version '{projectCourse.ActiveCourseVersion}' have been generated.");
+                generatedDataMessage.Add($"Data for course '{result.Course.CourseName}' and version '{projectCourse.CourseVersionVersion.FirstOrDefault()?.Codename}' have been generated.");
             }
 
             return new ObjectResult(generatedDataMessage);
@@ -110,7 +111,7 @@ namespace Web.Controllers
             var courseData = AdaptService.GenerateCourseData(pages, course);
 
             // (re)generate course json files
-            FileService.CreateCourseJsonFiles(course.CourseId, course.CourseLanguageCodename, courseData);
+            FileService.CreateCourseJsonFiles(course.CourseId, course.Language?.FirstOrDefault()?.Codename, courseData);
 
             return new GenerateResultModel()
             {

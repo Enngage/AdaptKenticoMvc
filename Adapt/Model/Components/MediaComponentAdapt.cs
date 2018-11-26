@@ -36,7 +36,7 @@ namespace Adapt.Model.Components
         {
            Media = new MediaComponentMedia()
            {
-               Mp4 = video.VideoFile?.FirstOrDefault()?.Url,
+               Mp4 = video.Videofile?.FirstOrDefault()?.Url,
                Poster = video.LoadingImage?.FirstOrDefault()?.Url,
                Cc = new MediaComponentMediaCc()
                {

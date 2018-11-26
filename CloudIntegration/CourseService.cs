@@ -53,7 +53,7 @@ namespace CloudIntegration
         public async Task<List<string>> GetPackageVersionsAsync(string projectId)
         {
             return (await GetDeliveryClient(projectId)
-                    .GetContentElementAsync(Package.Codename, Package.CourseVersionCodename))
+                    .GetContentElementAsync(Package.Codename, Package.CourseVersionVersionCodename))
                 .Options.Select(m => m.Codename).ToList();
         }
 
@@ -110,17 +110,17 @@ namespace CloudIntegration
 
             var package = response.Items.First();
 
-            if (!package.CourseVersion.Any())
+            if (!package.CourseVersionVersion.Any())
             {
                 throw new NotSupportedException($"Course version is not set for course with id '{package.CourseId}' within project '{projectId}'");
             }
 
-            if (package.CourseVersion.Count() > 1)
+            if (package.CourseVersionVersion.Count() > 1)
             {
-                throw new NotSupportedException($"Course with id '{package.CourseId}' may contain only 1 version of the course. It currently contains '{package.CourseVersion.Count()}'");
+                throw new NotSupportedException($"Course with id '{package.CourseId}' may contain only 1 version of the course. It currently contains '{package.CourseVersionVersion.Count()}'");
             }
 
-            var courseVersion = package.CourseVersion.First().Codename;
+            var courseVersion = package.CourseVersionVersion.First().Codename;
 
             var pagesForGivenVersion = FilterPagesToIncludeOnlyItemsWithVersion(package.Pages.ToList(), courseVersion);
 
@@ -144,17 +144,12 @@ namespace CloudIntegration
         /// </summary>
         private IDeliveryClient GetDeliveryClient(string projectId, bool waitForLoadingNewContent = false)
         {
-            var client = new DeliveryClient(new DeliveryOptions()
-            {
-                ProjectId = projectId,
-                WaitForLoadingNewContent = waitForLoadingNewContent
-            })
-            {
-                CodeFirstModelProvider = { TypeProvider = new CustomTypeProvider() }
-            };
-
-            client.InlineContentItemsProcessor.RegisterTypeResolver(new InlineCodeResolver());
-            client.InlineContentItemsProcessor.RegisterTypeResolver(new InfoBoxResolver());
+            var client = DeliveryClientBuilder
+                .WithProjectId(projectId)
+                .WithCodeFirstTypeProvider(new CustomTypeProvider())
+                .WithInlineContentItemsResolver(new InlineCodeResolver())
+                .WithInlineContentItemsResolver(new InlineCodeResolver())
+                .Build();
 
             return client;
         }

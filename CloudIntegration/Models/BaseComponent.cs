@@ -6,14 +6,15 @@ namespace CloudIntegration.Models
 {
     public partial class BaseComponent : IBaseComponent
     {
+
         public const string BasecomponentDisplayTitleCodename = "basecomponent__display_title";
         public const string BasecomponentIsOptionalCodename = "basecomponent__is_optional_";
         public const string BasecomponentLayoutCodename = "basecomponent__layout";
+        public const string BasecomponentCourseVersionCodename = "basecomponent__course_version";
         public const string BasecomponentIncludeInProgressCodename = "basecomponent__include_in_progress_";
         public const string BasecomponentComponentClassesCodename = "basecomponent__component_classes";
         public const string BasecomponentTitleCodename = "basecomponent__title";
         public const string BasecomponentInstructionsCodename = "basecomponent__instructions";
-        public const string BasecomponentCourseVersionCodename = "basecomponent__course_version";
 
         public ContentItemSystemAttributes System { get; set; }
 

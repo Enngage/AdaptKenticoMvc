@@ -23,7 +23,7 @@ namespace Adapt.Model
     public class AdaptCourseConfigAssessment
     {
         [JsonProperty("_scoreToPass")]
-        public int ScoreToPass { get; set; }
+        public decimal? ScoreToPass { get; set; }
 
         [JsonProperty("_postTotalScoreToLms")]
         public bool PostTotalScoreToLms => true;

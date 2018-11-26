@@ -10,14 +10,14 @@ using KenticoCloud.Delivery;
 
 namespace CloudIntegration.Models.Cloud
 {
-    public partial class CodeBlock
+    public partial class InfoBox
     {
-        public const string Codename = "code_block";
-        public const string AvailableLanguagesLanguageCodename = "available_languages__language";
-        public const string CodeCodename = "code";
+        public const string Codename = "infobox";
+        public const string ContentCodename = "content";
+        public const string TypeCodename = "type";
 
-        public IEnumerable<MultipleChoiceOption> AvailableLanguagesLanguage { get; set; }
-        public string Code { get; set; }
+        public string Content { get; set; }
+        public IEnumerable<MultipleChoiceOption> Type { get; set; }
         public ContentItemSystemAttributes System { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using CloudIntegration.Models.Cloud;
+﻿using System.Linq;
+using CloudIntegration.Models.Cloud;
 using KenticoCloud.Delivery.InlineContentItems;
 
 namespace CloudIntegration.Resolvers

@@ -6,6 +6,7 @@ using CloudIntegration.Models;
 using CloudIntegration.Models.Cloud;
 using CloudIntegration.Resolvers;
 using KenticoCloud.Delivery;
+using KenticoCloud.Delivery.Builders.DeliveryOptions;
 
 namespace CloudIntegration
 {
@@ -87,7 +88,7 @@ namespace CloudIntegration
         /// <returns></returns>
         public async Task<List<Page>> GetPagesAsync(string projectId, string courseId)
         {
-            var deliveryClient = GetDeliveryClient(projectId, true);
+            var deliveryClient = GetDeliveryClient(projectId);
 
             var queryParams = new List<IQueryParameter>()
             {
@@ -142,14 +143,17 @@ namespace CloudIntegration
         /// <summary>
         /// Constructs delivery client
         /// </summary>
-        private IDeliveryClient GetDeliveryClient(string projectId, bool waitForLoadingNewContent = false)
+        private IDeliveryClient GetDeliveryClient(string projectId)
         {
-            var client = DeliveryClientBuilder
-                .WithProjectId(projectId)
+            var client = DeliveryClientBuilder.WithOptions(
+                    builder => builder.WithProjectId(projectId).UseProductionApi.WaitForLoadingNewContent.Build()
+                    )
+                .WithInlineContentItemsResolver(new InlineCodeResolver())
+                .WithInlineContentItemsResolver(new InfoBoxResolver())
+                .WithInlineContentItemsResolver(new MyDefaultResolver())
                 .WithCodeFirstTypeProvider(new CustomTypeProvider())
-                .WithInlineContentItemsResolver(new InlineCodeResolver())
-                .WithInlineContentItemsResolver(new InlineCodeResolver())
                 .Build();
+
 
             return client;
         }

@@ -5,9 +5,8 @@ using KenticoCloud.Delivery.InlineContentItems;
 
 namespace CloudIntegration.Resolvers
 {
-    public class MyDefaultResolver : IInlineContentItemsResolver<object>
+    public class DefaultContentItemResolver : IInlineContentItemsResolver<object>
     {
-
 
         public string Resolve(ResolvedContentItemData<object> data)
         {
@@ -21,7 +20,9 @@ namespace CloudIntegration.Resolvers
             if (data.Item is CodeBlock codeBlock)
             {
                 return
-                    $"<pre><code class=\"language-{codeBlock.AvailableLanguagesLanguage?.FirstOrDefault()?.Codename.ToLower().Trim()}\">\n{System.Web.HttpUtility.HtmlEncode(codeBlock.Code)?.TrimStart()}</code></pre>";
+                    $"<pre><code class=\"language-{codeBlock.AvailableLanguagesLanguage?.FirstOrDefault()?.Codename.ToLower().Trim()}\">" +
+                        $"{System.Web.HttpUtility.HtmlEncode(codeBlock.Code)?.Trim()}" +
+                    $"</code></pre>";
             }
             return "Content not available.";
         }

@@ -13,7 +13,10 @@ namespace Web
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                .UseUrls("http://localhost:51355", "https://richardsadaptmvc.azurewebsites.net", "https://kentico-adapt-live.azurewebsites.net/")
+                .UseUrls(
+                    "http://localhost:51355", 
+                    "https://richardsadaptmvc.azurewebsites.net", 
+                    "https://kentico-adapt-live.azurewebsites.net")
                 .Build();
     }
 }

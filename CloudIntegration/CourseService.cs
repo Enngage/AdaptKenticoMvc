@@ -6,7 +6,6 @@ using CloudIntegration.Models;
 using CloudIntegration.Models.Cloud;
 using CloudIntegration.Resolvers;
 using KenticoCloud.Delivery;
-using KenticoCloud.Delivery.Builders.DeliveryOptions;
 
 namespace CloudIntegration
 {
@@ -145,12 +144,14 @@ namespace CloudIntegration
         /// </summary>
         private IDeliveryClient GetDeliveryClient(string projectId)
         {
+            #warning Enable inline content items after its been fixed (https://github.com/Kentico/delivery-sdk-net/issues/146)
+
             var client = DeliveryClientBuilder.WithOptions(
                     builder => builder.WithProjectId(projectId).UseProductionApi.WaitForLoadingNewContent.Build()
                     )
-                .WithInlineContentItemsResolver(new InlineCodeResolver())
-                .WithInlineContentItemsResolver(new InfoBoxResolver())
-                .WithInlineContentItemsResolver(new MyDefaultResolver())
+                //.WithInlineContentItemsResolver(new InlineCodeResolver())
+                //.WithInlineContentItemsResolver(new InfoBoxResolver())
+                .WithInlineContentItemsResolver(new DefaultContentItemResolver())
                 .WithCodeFirstTypeProvider(new CustomTypeProvider())
                 .Build();
 

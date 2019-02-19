@@ -1,3 +1,14 @@
-This application generates JSON in a format readable by [Kentico Adapt]() based on data pulled from Kentico Cloud.
+# Kentico training Adapt Generator
 
-If for some reason the webhooks are not regenerating the content automatically, you can regenerate the JSON manually. Visit http://richardsadaptmvc.azurewebsites.net and select what you want to be generated or use the api with `debug=true` (e.g., http://richardsadaptmvc.azurewebsites.net/api/generate/index?projectId=63117da1-007f-01dd-86eb-23e8353ac375&version=v9&debug=true)
+This application generates JSON used by Kentico's training courses (MVC training in particular at the moment)from data stored in Kentico Cloud. Application is deployed to Azure and accessed by **production** training courses. Treat it with care.
+
+## Production & deployment
+
+App url: (http://kentico-adapt-live.azurewebsites.net)[http://kentico-adapt-live.azurewebsites.net]
+
+## Web hooks
+
+Training KC project need to define Web hooks to this application so that training materials are updated accordingly.
+
+Wek hooks url: (http://kentico-adapt-live.azurewebsites.net/api/generate/updatecourse)[http://kentico-adapt-live.azurewebsites.net/api/generate/updatecourse]
+

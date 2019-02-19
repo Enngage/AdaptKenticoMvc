@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KenticoCloud.Delivery" Version="8.0.0" />
+    <PackageReference Include="KenticoCloud.Delivery" Version="9.0.1" />
   </ItemGroup>
 
 </Project>

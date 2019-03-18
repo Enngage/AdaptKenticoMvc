@@ -52,7 +52,8 @@ namespace Web
                     CoursesFolderName = config.Files.CoursesFolderName,
                     CourseFilename = config.Files.CourseFilename,
                     DefaultCourseJsonDataFilename = config.Files.DefaultCourseJsonDataFilename,
-                    DefaultDataFolderName = config.Files.DefaultDataFolderName
+                    DefaultDataFolderName = config.Files.DefaultDataFolderName,
+                    CourseLogFilename = config.Files.CourseLogFilename
                 })
              );
         }

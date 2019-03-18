@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 using Adapt.Model;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -22,24 +24,28 @@ namespace Web.Services
         {
             var courseDir = GetCourseFolder(courseId, language);
 
-            // make sure directory for course exists
-            Directory.CreateDirectory(courseDir);
+            LogGenerateAction(() =>
+            {
+                // make sure directory for course exists
+                Directory.CreateDirectory(courseDir);
 
-            // course data
-            CreateJsonFile(courseDir, Config.ContentObjectsFilename, FixEmptyRichTextFields(JsonConvert.SerializeObject(courseData.Pages)));
-            CreateJsonFile(courseDir, Config.ArticlesFilename, FixEmptyRichTextFields(JsonConvert.SerializeObject(courseData.Articles)));
-            CreateJsonFile(courseDir, Config.BlocksFilename, FixEmptyRichTextFields(JsonConvert.SerializeObject(courseData.Blocks)));
-            CreateJsonFile(courseDir, Config.ComponentsFilename, FixEmptyRichTextFields(JsonConvert.SerializeObject(courseData.Components)));
+                // course data
+                CreateJsonFile(courseDir, Config.ContentObjectsFilename, FixEmptyRichTextFields(JsonConvert.SerializeObject(courseData.Pages)));
+                CreateJsonFile(courseDir, Config.ArticlesFilename, FixEmptyRichTextFields(JsonConvert.SerializeObject(courseData.Articles)));
+                CreateJsonFile(courseDir, Config.BlocksFilename, FixEmptyRichTextFields(JsonConvert.SerializeObject(courseData.Blocks)));
+                CreateJsonFile(courseDir, Config.ComponentsFilename, FixEmptyRichTextFields(JsonConvert.SerializeObject(courseData.Components)));
 
-            // course config
-            CreateJsonFile(courseDir, Config.CourseFilename, CombineDefaultAndCustomCourseConfig(courseData.Course));
+                // course config
+                CreateJsonFile(courseDir, Config.CourseFilename, CombineDefaultAndCustomCourseConfig(courseData.Course));
+
+            }, courseDir, courseData);
         }
 
         public string CombineDefaultAndCustomCourseConfig(AdaptCourseConfig courseConfig)
         {
             // load default data
             var defaultDataFilepath = GetDefaultDataFolder() + "\\" + Config.DefaultCourseJsonDataFilename;
-            var defaultCourseData =  JObject.Parse(File.ReadAllText(defaultDataFilepath));
+            var defaultCourseData = JObject.Parse(File.ReadAllText(defaultDataFilepath));
             var customCourseData = JObject.FromObject(courseConfig);
 
             // set custom properties
@@ -57,6 +63,19 @@ namespace Web.Services
             var result = text.Replace("\"<p><br></p>\"", "\"\"");
 
             return result;
+        }
+
+        public GenerateLogModel GetCourseLog(string courseId, string language)
+        {
+            var courseDir = GetCourseFolder(courseId, language);
+            var logFilePath = Path.Combine(courseDir, Config.CourseLogFilename);
+
+            if (!File.Exists(logFilePath))
+            {
+                return null;
+            }
+
+            return JsonConvert.DeserializeObject<GenerateLogModel>(File.ReadAllText(logFilePath));
         }
 
         public void CreateJsonFile(string folder, string filename, string content)
@@ -82,6 +101,17 @@ namespace Web.Services
         {
             return $"{Config.RootFolder}\\{Config.DefaultDataFolderName}";
         }
-   
+
+        private void LogGenerateAction(Action action, string courseDir, AdaptCourseData courseData)
+        {
+            action();
+
+            CreateJsonFile(courseDir, Config.CourseLogFilename, JsonConvert.SerializeObject(new
+                GenerateLogModel()
+            {
+                TimestampUTc = DateTime.UtcNow,
+                CourseName = courseData.Course.Title,
+            }));
+        }
     }
 }

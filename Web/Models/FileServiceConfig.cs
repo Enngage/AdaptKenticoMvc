@@ -12,5 +12,6 @@ namespace Web.Models
         public string CourseFilename { get; set; }
         public string DefaultDataFolderName { get; set; }
         public string DefaultCourseJsonDataFilename { get; set; }
+        public string CourseLogFilename { get; set; }
     }
 }

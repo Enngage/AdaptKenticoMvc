@@ -1,4 +1,5 @@
 ﻿using Adapt.Model;
+using Web.Models;
 
 namespace Web.Services
 {
@@ -9,7 +10,9 @@ namespace Web.Services
         string GetDefaultDataFolder();
         string GetCourseFolder(string courseId, string language);
         string CombineDefaultAndCustomCourseConfig(AdaptCourseConfig courseConfig);
-
         string FixEmptyRichTextFields(string text);
+        GenerateLogModel GetCourseLog(string courseId, string language);
+
+
     }
 }

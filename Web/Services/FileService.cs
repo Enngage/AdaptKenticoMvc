@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using Adapt.Model;
 using Newtonsoft.Json;
@@ -20,9 +19,9 @@ namespace Web.Services
             Config = config;
         }
 
-        public void CreateCourseJsonFiles(string courseId, string language, AdaptCourseData courseData)
+        public void CreateCourseJsonFiles(string courseId, string language, CourseFileTypeEnum type, AdaptCourseData courseData)
         {
-            var courseDir = GetCourseFolder(courseId, language);
+            var courseDir = GetCourseFolder(courseId, language, type);
 
             LogGenerateAction(() =>
             {
@@ -65,9 +64,9 @@ namespace Web.Services
             return result;
         }
 
-        public GenerateLogModel GetCourseLog(string courseId, string language)
+        public GenerateLogModel GetCourseLog(string courseId, string language, CourseFileTypeEnum type)
         {
-            var courseDir = GetCourseFolder(courseId, language);
+            var courseDir = GetCourseFolder(courseId, language, type);
             var logFilePath = Path.Combine(courseDir, Config.CourseLogFilename);
 
             if (!File.Exists(logFilePath))
@@ -92,9 +91,12 @@ namespace Web.Services
             }
         }
 
-        public string GetCourseFolder(string courseId, string language)
+        public string GetCourseFolder(string courseId, string language, CourseFileTypeEnum type)
         {
-            return $"{Config.RootFolder}\\{Config.CoursesFolderName}\\{courseId.ToCodename()}\\{language}";
+            var typeFolder = type == CourseFileTypeEnum.Preview ? "preview" : "prod";
+
+
+            return $"{Config.RootFolder}\\{Config.CoursesFolderName}\\{typeFolder}\\{courseId.ToCodename()}\\{language}";
         }
 
         public string GetDefaultDataFolder()
@@ -111,6 +113,10 @@ namespace Web.Services
             {
                 TimestampUTc = DateTime.UtcNow,
                 CourseName = courseData.Course.Title,
+                Articles = courseData.Articles.Count,
+                Blocks = courseData.Blocks.Count,
+                Components = courseData.Components.Count,
+                Pages = courseData.Pages.Count
             }));
         }
     }

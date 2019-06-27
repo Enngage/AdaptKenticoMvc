@@ -1,4 +1,5 @@
-﻿using Adapt;
+﻿using System.Linq;
+using Adapt;
 using CloudIntegration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -39,8 +40,14 @@ namespace Web
 
             services.AddScoped<IComponentService, ComponentService>();
             services.AddScoped<ICourseService, CourseService>(
-                service => new CourseService(new CourseServiceConfig(config.Depth, config.ProjectIds)));
+                service => new CourseService(new CourseServiceConfig(config.Depth, config.Projects.Select(m => new CourseServiceProject()
+                {
+                    ProjectId = m.ProjectId,
+                    PreviewApiKey = m.PreviewApiKey
+                }).ToList())
+            ));
             services.AddScoped<IAdaptService, AdaptService>();
+            services.AddScoped<ICourseGenerateService, CourseGenerateService>();
             services.AddScoped<IFileService, FileService>(
                 service => new FileService(new FileServiceConfig()
                 {

@@ -25,36 +25,46 @@ namespace CloudIntegration
         {
             var packages = new List<PackageDto>();
 
-            foreach (var projectId in Config.AllProjectIds)
+            foreach (var project in Config.Projects)
             {
-                var deliveryClient = GetDeliveryClient(projectId);
+                var deliveryClient = GetDeliveryClient(project.ProjectId, false, project.PreviewApiKey);
 
                 packages.AddRange((await deliveryClient.GetItemsAsync<Package>()).Items.Select(m => new PackageDto()
                 {
                     Package = m,
-                    ProjectId = projectId
+                    ProjectId = project.ProjectId
                 }));
             }
 
             return packages;
         }
 
-        public async Task<Package> GetPackageAsync(string projectId, string courseId)
+        public async Task<Package> GetPackageAsync(string courseId, bool usePreview)
         {
+            var projectForCourse = await GetProjectForCourseAsync(courseId);
+
             return (
-                    await GetDeliveryClient(projectId).GetItemsAsync<Package>(
+                    await GetDeliveryClient(projectForCourse.ProjectId, usePreview, projectForCourse.PreviewApiKey).GetItemsAsync<Package>(
                         new LimitParameter(1),
                         new EqualsFilter($"elements.{Package.CourseIdCodename}", courseId)
                     )
                 ).Items
-                .First();
+                .FirstOrDefault() ?? throw new NullReferenceException($"Course with id '{courseId}' in project '{projectForCourse.ProjectId}' was not found");
         }
 
-        public async Task<List<string>> GetPackageVersionsAsync(string projectId)
+        public async Task<CourseServiceProject> GetProjectForCourseAsync(string courseId)
         {
-            return (await GetDeliveryClient(projectId)
-                    .GetContentElementAsync(Package.Codename, Package.CourseVersionVersionCodename))
-                .Options.Select(m => m.Codename).ToList();
+            var allPackages = await GetAllPackagesAsync();
+
+            var package = allPackages.FirstOrDefault(m =>
+                       m.Package.CourseId.Equals(courseId, StringComparison.OrdinalIgnoreCase)) ??
+                   throw new NullReferenceException(
+                       $"Course with id '{courseId}' was not found in any of supported projects");
+
+            return Config.Projects.First(m =>
+                       m.ProjectId.Equals(package.ProjectId, StringComparison.OrdinalIgnoreCase)) ??
+                   throw new NullReferenceException(
+                       $"Project with id '{package.ProjectId}' was not found in configuration");
         }
 
         /// <summary>
@@ -82,12 +92,13 @@ namespace CloudIntegration
         /// <summary>
         /// Gets pages and nested course data structure from Kentico Cloud
         /// </summary>
-        /// <param name="projectId">ProjectId of course project</param>
         /// <param name="courseId">Course name as defined in KC</param>
+        /// <param name="usePreview">Indicates is preview mode should be used</param>
         /// <returns></returns>
-        public async Task<List<Page>> GetPagesAsync(string projectId, string courseId)
+        public async Task<List<Page>> GetPagesAsync(string courseId, bool usePreview)
         {
-            var deliveryClient = GetDeliveryClient(projectId);
+            var project = await GetProjectForCourseAsync(courseId);
+            var deliveryClient = GetDeliveryClient(project.ProjectId, usePreview, project.PreviewApiKey);
 
             var queryParams = new List<IQueryParameter>()
             {
@@ -100,19 +111,19 @@ namespace CloudIntegration
 
             if (!response.Items.Any())
             {
-                throw new NotSupportedException($"'{Package.Codename}' content type does not exist in project '{projectId}'. These should be exactly 1 item.");
+                throw new NotSupportedException($"'{Package.Codename}' content type does not exist in project '{project.ProjectId}'. These should be exactly 1 item.");
             }
 
             if (response.Items.Count > 1)
             {
-                throw new NotSupportedException($"'{Package.Codename}' content type '{projectId}' needs to have exactly 1 item. It currently has '{response.Items.Count}'");
+                throw new NotSupportedException($"'{Package.Codename}' content type '{project.ProjectId}' needs to have exactly 1 item. It currently has '{response.Items.Count}'");
             }
 
             var package = response.Items.First();
 
             if (!package.CourseVersionVersion.Any())
             {
-                throw new NotSupportedException($"Course version is not set for course with id '{package.CourseId}' within project '{projectId}'");
+                throw new NotSupportedException($"Course version is not set for course with id '{package.CourseId}' within project '{project.ProjectId}'");
             }
 
             if (package.CourseVersionVersion.Count() > 1)
@@ -130,23 +141,44 @@ namespace CloudIntegration
         /// <summary>
         /// Gets all courses within a project
         /// </summary>
-        /// <param name="projectId"></param>
+        /// <param name="project"></param>
         /// <returns></returns>
-        public async Task<List<Package>> GetAllCoursesWithinProjectAsync(string projectId)
+        public async Task<List<Package>> GetAllPackagesWithinProjectAsync(string projectId)
         {
             return (
-                await GetDeliveryClient(projectId).GetItemsAsync<Package>()
+                await GetDeliveryClient(projectId, false, null).GetItemsAsync<Package>()
             ).Items.ToList();
         }
 
         /// <summary>
         /// Constructs delivery client
         /// </summary>
-        private IDeliveryClient GetDeliveryClient(string projectId)
+        private IDeliveryClient GetDeliveryClient(string projectId, bool usePreview, string previewApiKey)
         {
             var client = DeliveryClientBuilder.WithOptions(
-                    builder => builder.WithProjectId(projectId).UseProductionApi.WaitForLoadingNewContent.Build()
-                    )
+                    builder =>
+                    {
+                        var config = builder
+                            .WithProjectId(projectId);
+
+                        if (!usePreview)
+                        {
+                            // do not use preview
+                            return
+                                config.UseProductionApi.WaitForLoadingNewContent
+                                .Build();
+                        }
+
+                        if (string.IsNullOrEmpty(previewApiKey))
+                        {
+                            throw new ArgumentNullException($"Preview api key is not set for project '{projectId}'");
+                        }
+
+                        // use preview
+                        return
+                            config.UsePreviewApi(previewApiKey).WaitForLoadingNewContent
+                                .Build();
+                    })
                 .WithInlineContentItemsResolver(new DefaultContentItemResolver())
                 .WithTypeProvider(new CustomTypeProvider())
                 .Build();

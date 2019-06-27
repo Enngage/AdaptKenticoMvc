@@ -24,9 +24,10 @@ namespace Web.Controllers
 
             return View(courses.Select(m => new SupportedPackageDto()
             {
-                Log = FileService.GetCourseLog(m.Package.CourseId, m.Package.Language.First().Codename),
+                PreviewLog = FileService.GetCourseLog(m.Package.CourseId, m.Package.Language.First().Codename, CourseFileTypeEnum.Preview),
+                ProdLog = FileService.GetCourseLog(m.Package.CourseId, m.Package.Language.First().Codename, CourseFileTypeEnum.Prod),
                 Package = m.Package,
-                ProjectId = m.ProjectId
+                ProjectId = m.ProjectId,
             }).ToList());
         }
     }

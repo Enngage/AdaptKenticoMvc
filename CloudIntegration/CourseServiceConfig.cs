@@ -5,12 +5,12 @@ namespace CloudIntegration
     public class CourseServiceConfig
     {
         public int Depth { get; }
-        public List<string> AllProjectIds { get; }
+        public List<CourseServiceProject> Projects { get; }
 
-        public CourseServiceConfig(int depth, List<string> allProjectIds)
+        public CourseServiceConfig(int depth, List<CourseServiceProject> projects)
         {
             Depth = depth;
-            AllProjectIds = allProjectIds;
+            Projects = projects;
         }
     }
 }

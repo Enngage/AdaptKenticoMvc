@@ -32,7 +32,7 @@
                 <div class="card" style="margin-top: 16px">
                     <header class="card-header has-background-info">
                         <p class="card-header-title has-text-white">
-                            @supportedCourse.Package.DisplayTitle 
+                            @supportedCourse.Package.DisplayTitle
                         </p>
                     </header>
                     <div class="card-content">
@@ -47,25 +47,39 @@
                         <div class="content">
                             Description: @supportedCourse.Package.Description
                         </div>
-                        
+
                         <div class="content">
                             Production data
+                            @if (supportedCourse.ProdLog != null)
+                            {
                             <ul>
                                 <li>Pages: <strong>@supportedCourse?.ProdLog?.Pages</strong></li>
                                 <li>Blocks: <strong>@supportedCourse?.ProdLog?.Blocks</strong></li>
                                 <li>Articles: <strong>@supportedCourse?.ProdLog?.Articles</strong></li>
                                 <li>Components: <strong>@supportedCourse?.ProdLog?.Components</strong></li>
                             </ul>
+                            }
+                            else
+                            {
+                                <em>Production log not available</em>
+                            }
                         </div>
-                        
+
                         <div class="content">
                             Preview data
+                            @if (supportedCourse.PreviewLog != null)
+                            {
                             <ul>
                                 <li>Pages: <strong>@supportedCourse?.PreviewLog?.Pages</strong></li>
                                 <li>Blocks: <strong>@supportedCourse?.PreviewLog?.Blocks</strong></li>
                                 <li>Articles: <strong>@supportedCourse?.PreviewLog?.Articles</strong></li>
                                 <li>Components: <strong>@supportedCourse?.PreviewLog?.Components</strong></li>
                             </ul>
+                            }
+                            else
+                            {
+                                <em>Preview log not available</em>
+                            }
                         </div>
 
                         <footer class="card-footer">

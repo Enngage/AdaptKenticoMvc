@@ -28,8 +28,6 @@ namespace Web.Services
                 throw new NotSupportedException($"Please specify '{nameof(courseId)}' parameter");
             }
 
-            var project = await CourseService.GetProjectForCourseAsync(courseId);
-
             var course = await CourseService.GetPackageAsync(courseId, usePreview);
             var pages = await CourseService.GetPagesAsync(courseId, usePreview);
 

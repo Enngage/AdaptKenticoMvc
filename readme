@@ -4,11 +4,11 @@ This application generates JSON used by Kentico's training courses (MVC training
 
 ## Production & deployment
 
-App URL: [http://kentico-adapt-live.azurewebsites.net](http://kentico-adapt-live.azurewebsites.net)
+App url: (http://kentico-adapt-live.azurewebsites.net)[http://kentico-adapt-live.azurewebsites.net]
 
 ## Web hooks
 
 Training KC project need to define Web hooks to this application so that training materials are updated accordingly.
 
-Web hooks URL: [http://kentico-adapt-live.azurewebsites.net/api/generate/updatecourse](http://kentico-adapt-live.azurewebsites.net/api/generate/updatecourse)
+Wek hooks url: (http://kentico-adapt-live.azurewebsites.net/api/generate/updatecourse)[http://kentico-adapt-live.azurewebsites.net/api/generate/updatecourse]
 

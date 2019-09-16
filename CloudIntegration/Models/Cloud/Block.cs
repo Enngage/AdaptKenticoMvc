@@ -25,5 +25,6 @@ namespace CloudIntegration.Models.Cloud
         public string Title { get; set; }
         public IEnumerable<object> Components { get; set; }
         public ContentItemSystemAttributes System { get; set; }
+        public int TrackingId { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace Adapt.Model
         public string Body { get; set; }
 
         [JsonProperty("_trackingId")]
-        public string TrackingId { get; set; }
+        public int TrackingId { get; set; }
 
         public override AdaptModelType Type { get; } = AdaptModelType.Block;
     }

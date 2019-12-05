@@ -27,6 +27,7 @@ namespace Adapt
         /// </summary>
         public AdaptCourseData GenerateCourseData(List<Page> inputPages, Package package)
         {
+            var trackingId = 0;
             var pages = new List<PageAdapt>();
             var articles = new List<ArticleAdapt>();
             var blocks = new List<BlockAdapt>();
@@ -40,11 +41,11 @@ namespace Adapt
                 {
                     var articleBlocks = new List<BlockAdapt>();
 
-                    foreach (var articleBlock in GetBlocks(pageArticle, pageArticle.Blocks))
+                    foreach (var articleBlock in GetBlocks(pageArticle, pageArticle.Blocks, ref trackingId))
                     {
                         // generate block components
                         var blockComponents = GetComponents(articleBlock, articleBlock.Components);
-                    
+
                         // only add blocks with components
                         if (blockComponents.Any())
                         {
@@ -98,18 +99,25 @@ namespace Adapt
             }).ToList();
         }
 
-        public List<BlockAdapt> GetBlocks(ArticleAdapt parent, List<Block> inputBlocks)
+        public List<BlockAdapt> GetBlocks(ArticleAdapt parent, List<Block> inputBlocks, ref int trackingId)
         {
-            return inputBlocks.Select(m => new BlockAdapt()
+            var blocks = new List<BlockAdapt>();
+            foreach (var inputBlock in inputBlocks)
             {
-                Components = m.Components.Cast<IBaseComponent>().ToList(),
-                Id = m.System.Id,
-                ParentId = parent.Id,
-                Body = m.Body,
-                Title = m.Title,
-                DisplayTitle = m.DisplayTitle,
-                TrackingId = m.System.Id
-            }).ToList();
+                trackingId++;
+                blocks.Add(
+                    new BlockAdapt()
+                    {
+                        Components = inputBlock.Components.Cast<IBaseComponent>().ToList(),
+                        Id = inputBlock.System.Id,
+                        ParentId = parent.Id,
+                        Body = inputBlock.Body,
+                        Title = inputBlock.Title,
+                        DisplayTitle = inputBlock.DisplayTitle,
+                        TrackingId = trackingId
+                    });
+            }
+            return blocks;
         }
 
         public List<BaseAdaptComponent> GetComponents(BlockAdapt parent, List<IBaseComponent> inputComponents)

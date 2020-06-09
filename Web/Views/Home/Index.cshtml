@@ -84,11 +84,11 @@
 
                         <footer class="card-footer">
                             <div class="card-footer-item">
-                                <a target="_blank" href="@Url.RouteUrl("api", new {controller = "generate", action = "index", courseId = supportedCourse.Package.CourseId, projectId = supportedCourse.ProjectId, debug = true, usePreview = false})">Rebuild prod</a>
+                                <a target="_blank" href="@Url.ActionLink("Index", "Generate", new {courseId = supportedCourse.Package.CourseId, projectId = supportedCourse.ProjectId, debug = true, usePreview = false})">Rebuild prod</a>
                                 &nbsp;<span class="is-size-6">( @supportedCourse.ProdLog?.TimestampUTc)</span>
                             </div>
                             <div class="card-footer-item">
-                                <a target="_blank" href="@Url.RouteUrl("api", new {controller = "generate", action = "index", courseId = supportedCourse.Package.CourseId, projectId = supportedCourse.ProjectId, debug = true, usePreview = true})">Rebuild preview</a>
+                                <a target="_blank" href="@Url.ActionLink("Index", "Generate", new {courseId = supportedCourse.Package.CourseId, projectId = supportedCourse.ProjectId, debug = true, usePreview = true})">Rebuild preview</a>
                                 &nbsp;<span class="is-size-6">( @supportedCourse.PreviewLog?.TimestampUTc)</span>
                             </div>
                         </footer>

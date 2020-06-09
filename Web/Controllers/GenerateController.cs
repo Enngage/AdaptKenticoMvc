@@ -32,8 +32,7 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        [Route("index")]
-        [Route("")]
+        [Route("Index")]
         public async Task<IActionResult> IndexAsync([FromQuery] string courseId, bool debug, bool usePreview)
         {
             var generatedDataMessage = new List<string>();

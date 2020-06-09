@@ -103,7 +103,7 @@
   },
   "_id": "course",
   "_type": "course",
-  "title": "Dev03-K12",
+  "title": "K12 MVC - Essentials module",
   "displayTitle": "MVC Developer course",
   "description": "This could be course description",
   "body": "Welcome to the essential part of the MVC Developer course. This module teaches you the basics of Kentico MVC and the recommended practices for developing and optimizing Kentico websites built the MVC development model.",

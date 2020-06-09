@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Web.Models;
 using Web.Services;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace Web
 {
@@ -15,8 +17,9 @@ namespace Web
         public IConfigurationRoot Configuration { get; }
 
         const string AppConfigPath = "App";
+        private const string CorsName = "AllowAll";
 
-        public Startup(IHostingEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -34,9 +37,18 @@ namespace Web
             services.Configure<AppConfig>(Configuration.GetSection(AppConfigPath));
             var config = Configuration.GetSection(AppConfigPath).Get<AppConfig>();
 
-            services.AddCors();
-            services.AddMvc();
+            services.AddCors(options => options.AddPolicy(CorsName, m =>
+                    m.WithOrigins(config.Cors.AllowedDomains.ToArray())
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials()
+                )
+            );
             services.AddRouting();
+
+            services.AddMvc(options => { options.EnableEndpointRouting = true; });
+
+            services.AddResponseCompression();
 
             services.AddScoped<IComponentService, ComponentService>();
             services.AddScoped<ICourseService, CourseService>(
@@ -66,10 +78,11 @@ namespace Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             var config = Configuration.GetSection(AppConfigPath).Get<AppConfig>();
 
+            app.UseRouting();
             app.UseCors(builder => builder
                 .WithOrigins(config.Cors.AllowedDomains.ToArray())
                 .AllowAnyHeader()
@@ -83,11 +96,21 @@ namespace Web
 
             app.UseStaticFiles();
 
+            // add resource compression - before UseMVC
+            app.UseResponseCompression();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapDefaultControllerRoute();
+            });
+
+            /*
             app.UseMvc(routes =>
             {
                 routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
                 routes.MapRoute("api", "api/{controller}/{action}");
             });
+            */
         }
     }
 }

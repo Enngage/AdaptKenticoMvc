@@ -4,7 +4,7 @@ using System.Linq;
 using Adapt.Helpers;
 using Adapt.Model.Types;
 using CloudIntegration.Models;
-using KenticoCloud.Delivery;
+using Kentico.Kontent.Delivery.ContentTypes.Element;
 using Newtonsoft.Json;
 
 namespace Adapt.Model

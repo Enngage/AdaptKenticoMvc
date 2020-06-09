@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Adapt.Model.Types;
-using CloudIntegration.Models;
-using CloudIntegration.Models.Cloud;
+using KenticoKontentModels;
 using Newtonsoft.Json;
 
 namespace Adapt.Model.Components

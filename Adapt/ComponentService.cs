@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using Adapt.Model;
 using Adapt.Model.Components;
 using CloudIntegration.Models;
-using CloudIntegration.Models.Cloud;
+using KenticoKontentModels;
 
 namespace Adapt
 {
     public class ComponentService : IComponentService
     {
 
-        public List<BaseAdaptComponent> GetAllComponents(BlockAdapt parent, List<IBaseComponent> inputComponents, bool throwExceptionForUnsupportedTypes)
+        public List<BaseAdaptComponent> GetAllComponents(BlockAdapt parent, IEnumerable<IBaseComponent> inputComponents, bool throwExceptionForUnsupportedTypes)
         {
             var components = new List<BaseAdaptComponent>();
 

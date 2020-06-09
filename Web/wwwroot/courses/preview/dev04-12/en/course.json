@@ -103,7 +103,7 @@
   },
   "_id": "course",
   "_type": "course",
-  "title": "Dev04-K12",
+  "title": "K12 MVC - Builders module",
   "displayTitle": "MVC Developer course: page builder, form builder",
   "description": "",
   "body": "Welcome to the part of the MVC Developer course dedicated to Kentico MVC page builder and form builder. This module teaches you the differences between structured pages and page builder-enabled pages, how to develop page builder components, how page builder and form builder work together, and most importantly, how to develop various custom parts of both page builder and form builder.",

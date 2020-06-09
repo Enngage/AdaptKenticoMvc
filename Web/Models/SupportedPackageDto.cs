@@ -1,4 +1,4 @@
-﻿using CloudIntegration.Models.Cloud;
+﻿using KenticoKontentModels;
 
 namespace Web.Models
 {

@@ -3,7 +3,7 @@ using System.Linq;
 using Adapt.Helpers;
 using Adapt.Model;
 using CloudIntegration.Models;
-using CloudIntegration.Models.Cloud;
+using KenticoKontentModels;
 
 namespace Adapt
 {
@@ -108,7 +108,7 @@ namespace Adapt
                 blocks.Add(
                     new BlockAdapt()
                     {
-                        Components = inputBlock.Components.Cast<IBaseComponent>().ToList(),
+                        Components = inputBlock.MappedComponents.ToList(),
                         Id = inputBlock.System.Id,
                         ParentId = parent.Id,
                         Body = inputBlock.Body,
@@ -120,7 +120,7 @@ namespace Adapt
             return blocks;
         }
 
-        public List<BaseAdaptComponent> GetComponents(BlockAdapt parent, List<IBaseComponent> inputComponents)
+        public List<BaseAdaptComponent> GetComponents(BlockAdapt parent, IEnumerable<IBaseComponent> inputComponents)
         {
             return ComponentService.GetAllComponents(parent, inputComponents, false);
         }

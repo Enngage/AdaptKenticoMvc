@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
-using KenticoCloud.Delivery;
+using Kentico.Kontent.Delivery.Abstractions;
+using Kentico.Kontent.Delivery.ContentItems;
+using Kentico.Kontent.Delivery.ContentTypes.Element;
+using Kentico.Kontent.Delivery.TaxonomyGroups;
 
 namespace CloudIntegration.Models
 {
     public interface IBaseComponent
     {
-        ContentItemSystemAttributes System { get; set; }
+        IContentItemSystemAttributes System { get; set; }
         IEnumerable<TaxonomyTerm> ComponentClasses { get; set; }
         IEnumerable<MultipleChoiceOption> IsOptional { get; set; }
         string DisplayTitle { get; set; }

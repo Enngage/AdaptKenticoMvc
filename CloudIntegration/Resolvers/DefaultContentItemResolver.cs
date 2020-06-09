@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using CloudIntegration.Models.Cloud;
-using KenticoCloud.Delivery.InlineContentItems;
+using Kentico.Kontent.Delivery.Abstractions;
+using KenticoKontentModels;
 
 namespace CloudIntegration.Resolvers
 {
@@ -10,7 +10,7 @@ namespace CloudIntegration.Resolvers
 
         public string Resolve(object data)
         {
-            if (data is InfoBox infoBox)
+            if (data is Infobox infoBox)
             {
                 var boxClass = "infobox";
                 var infoBoxType = infoBox.Type.FirstOrDefault();

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using KenticoCloud.Delivery;
+using Kentico.Kontent.Delivery.Abstractions;
 
 namespace Adapt.Helpers
 {
@@ -9,7 +9,7 @@ namespace Adapt.Helpers
     {
         public const string IsRequiredYesOption = "yes";
 
-        public static bool IsYesOptionChecked(IEnumerable<MultipleChoiceOption> options)
+        public static bool IsYesOptionChecked(IEnumerable<IMultipleChoiceOption> options)
         {
             return options?.FirstOrDefault()?.Codename.Equals(IsRequiredYesOption, StringComparison.OrdinalIgnoreCase) ?? false;
         }

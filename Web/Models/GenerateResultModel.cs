@@ -1,5 +1,5 @@
 ﻿using Adapt.Model;
-using CloudIntegration.Models.Cloud;
+using KenticoKontentModels;
 
 namespace Web.Models
 {

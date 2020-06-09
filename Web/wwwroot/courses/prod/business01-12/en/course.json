@@ -103,10 +103,10 @@
   },
   "_id": "course",
   "_type": "course",
-  "title": "K12 MVC - Essentials module",
-  "displayTitle": "MVC Developer course",
-  "description": "This could be course description",
-  "body": "Welcome to the essential part of the MVC Developer course. This module teaches you the basics of Kentico MVC and the recommended practices for developing and optimizing Kentico websites built the MVC development model.",
+  "title": "Content Management in Kentico MVC",
+  "displayTitle": "Content Management in Kentico websites",
+  "description": "",
+  "body": "Learn how you can create and update content on your Kentico website",
   "_buttons": {
     "_submit": {
       "buttonText": "Submit",
@@ -142,7 +142,7 @@
     "_isEnabled": false
   },
   "_assessment": {
-    "_scoreToPass": 60.0,
+    "_scoreToPass": 70.0,
     "_postTotalScoreToLms": true,
     "_isPercentageBased": true
   },

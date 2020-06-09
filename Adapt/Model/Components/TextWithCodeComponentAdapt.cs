@@ -1,5 +1,5 @@
 ﻿using Adapt.Model.Types;
-using CloudIntegration.Models.Cloud;
+using KenticoKontentModels;
 using Newtonsoft.Json;
 
 namespace Adapt.Model.Components

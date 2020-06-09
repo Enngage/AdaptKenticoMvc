@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using KenticoCloud.Delivery;
+using Kentico.Kontent.Delivery.Abstractions;
 
-namespace CloudIntegration.Models.Cloud
+namespace KenticoKontentModels
 {
     public class CustomTypeProvider : ITypeProvider
     {
-        private static readonly Dictionary<Type, string> Codenames = new Dictionary<Type, string>
+        private static readonly Dictionary<Type, string> _codenames = new Dictionary<Type, string>
         {
             {typeof(Accordion), "accordion"},
             {typeof(AccordionItem), "accordion_item"},
@@ -17,7 +17,7 @@ namespace CloudIntegration.Models.Cloud
             {typeof(Block), "block"},
             {typeof(CodeBlock), "code_block"},
             {typeof(Graphic), "graphic"},
-            {typeof(InfoBox), "infobox"},
+            {typeof(Infobox), "infobox"},
             {typeof(MultipleChoiceQuestionTextOnly), "multiple_choice_question__text_only_"},
             {typeof(MultipleChoiceQuestionWithCode), "multiple_choice_question__with_code_"},
             {typeof(Narrative), "narrative"},
@@ -33,12 +33,12 @@ namespace CloudIntegration.Models.Cloud
 
         public Type GetType(string contentType)
         {
-            return Codenames.Keys.FirstOrDefault(type => GetCodename(type).Equals(contentType));
+            return _codenames.Keys.FirstOrDefault(type => GetCodename(type).Equals(contentType));
         }
 
         public string GetCodename(Type contentType)
         {
-            return Codenames.TryGetValue(contentType, out var codename) ? codename : null;
+            return _codenames.TryGetValue(contentType, out var codename) ? codename : null;
         }
     }
 }

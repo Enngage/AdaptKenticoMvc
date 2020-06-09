@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Adapt.Model.Types;
-using CloudIntegration;
 using CloudIntegration.Models;
 using Newtonsoft.Json;
 

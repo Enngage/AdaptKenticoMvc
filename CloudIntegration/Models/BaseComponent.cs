@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
-using KenticoCloud.Delivery;
+using Kentico.Kontent.Delivery.Abstractions;
+using Kentico.Kontent.Delivery.ContentTypes.Element;
+using Kentico.Kontent.Delivery.TaxonomyGroups;
 using Newtonsoft.Json;
 
 namespace CloudIntegration.Models
 {
-    public partial class BaseComponent : IBaseComponent
+    public abstract class BaseComponent : IBaseComponent
     {
 
         public const string BasecomponentDisplayTitleCodename = "basecomponent__display_title";
@@ -16,7 +18,7 @@ namespace CloudIntegration.Models
         public const string BasecomponentTitleCodename = "basecomponent__title";
         public const string BasecomponentInstructionsCodename = "basecomponent__instructions";
 
-        public ContentItemSystemAttributes System { get; set; }
+        public abstract IContentItemSystemAttributes System { get; set; }
 
         [JsonProperty(BasecomponentComponentClassesCodename)]
         public IEnumerable<TaxonomyTerm> ComponentClasses { get; set; }

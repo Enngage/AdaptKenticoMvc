@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CloudIntegration.Models;
-using CloudIntegration.Models.Cloud;
 using CloudIntegration.Resolvers;
-using KenticoCloud.Delivery;
+using Kentico.Kontent.Delivery.Abstractions;
+using Kentico.Kontent.Delivery.Builders.DeliveryClient;
+using Kentico.Kontent.Delivery.ContentTypes.Element;
+using Kentico.Kontent.Delivery.Urls.QueryParameters;
+using Kentico.Kontent.Delivery.Urls.QueryParameters.Filters;
+using KenticoKontentModels;
 
 namespace CloudIntegration
 {
@@ -141,8 +145,6 @@ namespace CloudIntegration
         /// <summary>
         /// Gets all courses within a project
         /// </summary>
-        /// <param name="project"></param>
-        /// <returns></returns>
         public async Task<List<Package>> GetAllPackagesWithinProjectAsync(string projectId)
         {
             return (
@@ -163,10 +165,13 @@ namespace CloudIntegration
 
                         if (!usePreview)
                         {
-                            // do not use preview
-                            return
-                                config.UseProductionApi.WaitForLoadingNewContent
-                                .Build();
+                            // use production API
+                           
+                            return 
+                                config
+                                    .UseProductionApi()
+                                    .WaitForLoadingNewContent()
+                                    .Build();
                         }
 
                         if (string.IsNullOrEmpty(previewApiKey))
@@ -174,9 +179,11 @@ namespace CloudIntegration
                             throw new ArgumentNullException($"Preview api key is not set for project '{projectId}'");
                         }
 
-                        // use preview
+                        // use preview API
                         return
-                            config.UsePreviewApi(previewApiKey).WaitForLoadingNewContent
+                            config
+                                .UsePreviewApi(previewApiKey)
+                                .WaitForLoadingNewContent()
                                 .Build();
                     })
                 .WithInlineContentItemsResolver(new DefaultContentItemResolver())

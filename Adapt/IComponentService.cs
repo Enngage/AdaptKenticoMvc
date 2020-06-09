@@ -6,6 +6,6 @@ namespace Adapt
 {
     public interface IComponentService
     {
-        List<BaseAdaptComponent> GetAllComponents(BlockAdapt parent, List<IBaseComponent> inputComponents, bool throwExceptionForUnsupportedTypes);
+        List<BaseAdaptComponent> GetAllComponents(BlockAdapt parent, IEnumerable<IBaseComponent> inputComponents, bool throwExceptionForUnsupportedTypes);
     }
 }

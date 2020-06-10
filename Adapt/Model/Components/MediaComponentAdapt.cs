@@ -20,8 +20,11 @@ namespace Adapt.Model.Components
         [JsonProperty("_allowFullScreen")]
         public bool AllowFullScreen => true;
 
+        [JsonProperty("instruction")]
+        public string Instruction { get; }
+
         [JsonProperty("_media")]
-        public MediaComponentMedia Media { get;}
+        public MediaComponentMedia Media { get; }
 
         [JsonProperty("_transcript")]
         public MediaComnponentTranscript Transcript { get; set; }
@@ -31,16 +34,17 @@ namespace Adapt.Model.Components
 
         public override AdaptComponentType Component => AdaptComponentType.Media;
 
-        public MediaComponentAdapt(string parentId, Video video): base(parentId, video)
+        public MediaComponentAdapt(string parentId, Video video) : base(parentId, video)
         {
-           Media = new MediaComponentMedia()
-           {
-               Mp4 = video.Videofile?.FirstOrDefault()?.Url,
-               Poster = video.LoadingImage?.FirstOrDefault()?.Url,
-               Cc = new MediaComponentMediaCc()
-               {
-               },         
-           };
+            Instruction = video.Description;
+            Media = new MediaComponentMedia()
+            {
+                Mp4 = video.Videofile?.FirstOrDefault()?.Url,
+                Poster = video.LoadingImage?.FirstOrDefault()?.Url,
+                Cc = new MediaComponentMediaCc()
+                {
+                },
+            };
 
             Transcript = new MediaComnponentTranscript()
             {
@@ -64,7 +68,7 @@ namespace Adapt.Model.Components
 
             [JsonProperty("inlineTranscriptBody")]
             public string InlineTranscriptBody { get; set; }
-          
+
         }
 
         public class MediaComponentMedia

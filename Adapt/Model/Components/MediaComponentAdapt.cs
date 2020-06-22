@@ -20,9 +20,6 @@ namespace Adapt.Model.Components
         [JsonProperty("_allowFullScreen")]
         public bool AllowFullScreen => true;
 
-        [JsonProperty("instruction")]
-        public string Instruction { get; }
-
         [JsonProperty("_media")]
         public MediaComponentMedia Media { get; }
 
@@ -36,7 +33,7 @@ namespace Adapt.Model.Components
 
         public MediaComponentAdapt(string parentId, Video video) : base(parentId, video)
         {
-            Instruction = video.Description;
+            Instructions = video.Description;
             Media = new MediaComponentMedia()
             {
                 Mp4 = video.Videofile?.FirstOrDefault()?.Url,
